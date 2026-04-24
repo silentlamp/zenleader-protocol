@@ -910,3 +910,994 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ChangeVisibilityResValidationError{}
+
+// Validate checks the field values on SwitchPresenterReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SwitchPresenterReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SwitchPresenterReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SwitchPresenterReqMultiError, or nil if none found.
+func (m *SwitchPresenterReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SwitchPresenterReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Task
+
+	// no validation rules for UserId
+
+	// no validation rules for RoomId
+
+	// no validation rules for RequestedUserId
+
+	if len(errors) > 0 {
+		return SwitchPresenterReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// SwitchPresenterReqMultiError is an error wrapping multiple validation errors
+// returned by SwitchPresenterReq.ValidateAll() if the designated constraints
+// aren't met.
+type SwitchPresenterReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SwitchPresenterReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SwitchPresenterReqMultiError) AllErrors() []error { return m }
+
+// SwitchPresenterReqValidationError is the validation error returned by
+// SwitchPresenterReq.Validate if the designated constraints aren't met.
+type SwitchPresenterReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SwitchPresenterReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SwitchPresenterReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SwitchPresenterReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SwitchPresenterReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SwitchPresenterReqValidationError) ErrorName() string {
+	return "SwitchPresenterReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SwitchPresenterReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSwitchPresenterReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SwitchPresenterReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SwitchPresenterReqValidationError{}
+
+// Validate checks the field values on ExternalMediaPlayerReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ExternalMediaPlayerReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExternalMediaPlayerReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExternalMediaPlayerReqMultiError, or nil if none found.
+func (m *ExternalMediaPlayerReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExternalMediaPlayerReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Task
+
+	// no validation rules for RoomId
+
+	// no validation rules for UserId
+
+	if m.Url != nil {
+		// no validation rules for Url
+	}
+
+	if m.SeekTo != nil {
+		// no validation rules for SeekTo
+	}
+
+	if len(errors) > 0 {
+		return ExternalMediaPlayerReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExternalMediaPlayerReqMultiError is an error wrapping multiple validation
+// errors returned by ExternalMediaPlayerReq.ValidateAll() if the designated
+// constraints aren't met.
+type ExternalMediaPlayerReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExternalMediaPlayerReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExternalMediaPlayerReqMultiError) AllErrors() []error { return m }
+
+// ExternalMediaPlayerReqValidationError is the validation error returned by
+// ExternalMediaPlayerReq.Validate if the designated constraints aren't met.
+type ExternalMediaPlayerReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExternalMediaPlayerReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExternalMediaPlayerReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExternalMediaPlayerReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExternalMediaPlayerReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExternalMediaPlayerReqValidationError) ErrorName() string {
+	return "ExternalMediaPlayerReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ExternalMediaPlayerReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExternalMediaPlayerReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExternalMediaPlayerReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExternalMediaPlayerReqValidationError{}
+
+// Validate checks the field values on ExternalDisplayLinkReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ExternalDisplayLinkReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExternalDisplayLinkReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExternalDisplayLinkReqMultiError, or nil if none found.
+func (m *ExternalDisplayLinkReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExternalDisplayLinkReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Task
+
+	// no validation rules for RoomId
+
+	// no validation rules for UserId
+
+	if m.Url != nil {
+		// no validation rules for Url
+	}
+
+	if len(errors) > 0 {
+		return ExternalDisplayLinkReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExternalDisplayLinkReqMultiError is an error wrapping multiple validation
+// errors returned by ExternalDisplayLinkReq.ValidateAll() if the designated
+// constraints aren't met.
+type ExternalDisplayLinkReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExternalDisplayLinkReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExternalDisplayLinkReqMultiError) AllErrors() []error { return m }
+
+// ExternalDisplayLinkReqValidationError is the validation error returned by
+// ExternalDisplayLinkReq.Validate if the designated constraints aren't met.
+type ExternalDisplayLinkReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExternalDisplayLinkReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExternalDisplayLinkReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExternalDisplayLinkReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExternalDisplayLinkReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExternalDisplayLinkReqValidationError) ErrorName() string {
+	return "ExternalDisplayLinkReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ExternalDisplayLinkReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExternalDisplayLinkReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExternalDisplayLinkReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExternalDisplayLinkReqValidationError{}
+
+// Validate checks the field values on CreateEtherpadSessionRes with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateEtherpadSessionRes) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateEtherpadSessionRes with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateEtherpadSessionResMultiError, or nil if none found.
+func (m *CreateEtherpadSessionRes) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateEtherpadSessionRes) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Status
+
+	// no validation rules for Msg
+
+	if m.PadId != nil {
+		// no validation rules for PadId
+	}
+
+	if m.ReadonlyPadId != nil {
+		// no validation rules for ReadonlyPadId
+	}
+
+	if len(errors) > 0 {
+		return CreateEtherpadSessionResMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateEtherpadSessionResMultiError is an error wrapping multiple validation
+// errors returned by CreateEtherpadSessionRes.ValidateAll() if the designated
+// constraints aren't met.
+type CreateEtherpadSessionResMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateEtherpadSessionResMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateEtherpadSessionResMultiError) AllErrors() []error { return m }
+
+// CreateEtherpadSessionResValidationError is the validation error returned by
+// CreateEtherpadSessionRes.Validate if the designated constraints aren't met.
+type CreateEtherpadSessionResValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateEtherpadSessionResValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateEtherpadSessionResValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateEtherpadSessionResValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateEtherpadSessionResValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateEtherpadSessionResValidationError) ErrorName() string {
+	return "CreateEtherpadSessionResValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateEtherpadSessionResValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateEtherpadSessionRes.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateEtherpadSessionResValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateEtherpadSessionResValidationError{}
+
+// Validate checks the field values on CleanEtherpadReq with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *CleanEtherpadReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CleanEtherpadReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CleanEtherpadReqMultiError, or nil if none found.
+func (m *CleanEtherpadReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CleanEtherpadReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RoomId
+
+	// no validation rules for NodeId
+
+	// no validation rules for PadId
+
+	if len(errors) > 0 {
+		return CleanEtherpadReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// CleanEtherpadReqMultiError is an error wrapping multiple validation errors
+// returned by CleanEtherpadReq.ValidateAll() if the designated constraints
+// aren't met.
+type CleanEtherpadReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CleanEtherpadReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CleanEtherpadReqMultiError) AllErrors() []error { return m }
+
+// CleanEtherpadReqValidationError is the validation error returned by
+// CleanEtherpadReq.Validate if the designated constraints aren't met.
+type CleanEtherpadReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CleanEtherpadReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CleanEtherpadReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CleanEtherpadReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CleanEtherpadReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CleanEtherpadReqValidationError) ErrorName() string { return "CleanEtherpadReqValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CleanEtherpadReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCleanEtherpadReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CleanEtherpadReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CleanEtherpadReqValidationError{}
+
+// Validate checks the field values on ChangeEtherpadStatusReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ChangeEtherpadStatusReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ChangeEtherpadStatusReq with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ChangeEtherpadStatusReqMultiError, or nil if none found.
+func (m *ChangeEtherpadStatusReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ChangeEtherpadStatusReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RoomId
+
+	// no validation rules for IsActive
+
+	if len(errors) > 0 {
+		return ChangeEtherpadStatusReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// ChangeEtherpadStatusReqMultiError is an error wrapping multiple validation
+// errors returned by ChangeEtherpadStatusReq.ValidateAll() if the designated
+// constraints aren't met.
+type ChangeEtherpadStatusReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ChangeEtherpadStatusReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ChangeEtherpadStatusReqMultiError) AllErrors() []error { return m }
+
+// ChangeEtherpadStatusReqValidationError is the validation error returned by
+// ChangeEtherpadStatusReq.Validate if the designated constraints aren't met.
+type ChangeEtherpadStatusReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ChangeEtherpadStatusReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ChangeEtherpadStatusReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ChangeEtherpadStatusReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ChangeEtherpadStatusReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ChangeEtherpadStatusReqValidationError) ErrorName() string {
+	return "ChangeEtherpadStatusReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ChangeEtherpadStatusReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sChangeEtherpadStatusReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ChangeEtherpadStatusReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ChangeEtherpadStatusReqValidationError{}
+
+// Validate checks the field values on ApproveWaitingUsersReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ApproveWaitingUsersReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ApproveWaitingUsersReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ApproveWaitingUsersReqMultiError, or nil if none found.
+func (m *ApproveWaitingUsersReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ApproveWaitingUsersReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RoomId
+
+	// no validation rules for UserId
+
+	if len(errors) > 0 {
+		return ApproveWaitingUsersReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// ApproveWaitingUsersReqMultiError is an error wrapping multiple validation
+// errors returned by ApproveWaitingUsersReq.ValidateAll() if the designated
+// constraints aren't met.
+type ApproveWaitingUsersReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ApproveWaitingUsersReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ApproveWaitingUsersReqMultiError) AllErrors() []error { return m }
+
+// ApproveWaitingUsersReqValidationError is the validation error returned by
+// ApproveWaitingUsersReq.Validate if the designated constraints aren't met.
+type ApproveWaitingUsersReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ApproveWaitingUsersReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ApproveWaitingUsersReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ApproveWaitingUsersReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ApproveWaitingUsersReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ApproveWaitingUsersReqValidationError) ErrorName() string {
+	return "ApproveWaitingUsersReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ApproveWaitingUsersReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sApproveWaitingUsersReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ApproveWaitingUsersReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ApproveWaitingUsersReqValidationError{}
+
+// Validate checks the field values on UpdateWaitingRoomMessageReq with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateWaitingRoomMessageReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateWaitingRoomMessageReq with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateWaitingRoomMessageReqMultiError, or nil if none found.
+func (m *UpdateWaitingRoomMessageReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateWaitingRoomMessageReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RoomId
+
+	// no validation rules for Msg
+
+	if len(errors) > 0 {
+		return UpdateWaitingRoomMessageReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateWaitingRoomMessageReqMultiError is an error wrapping multiple
+// validation errors returned by UpdateWaitingRoomMessageReq.ValidateAll() if
+// the designated constraints aren't met.
+type UpdateWaitingRoomMessageReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateWaitingRoomMessageReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateWaitingRoomMessageReqMultiError) AllErrors() []error { return m }
+
+// UpdateWaitingRoomMessageReqValidationError is the validation error returned
+// by UpdateWaitingRoomMessageReq.Validate if the designated constraints
+// aren't met.
+type UpdateWaitingRoomMessageReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateWaitingRoomMessageReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateWaitingRoomMessageReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateWaitingRoomMessageReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateWaitingRoomMessageReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateWaitingRoomMessageReqValidationError) ErrorName() string {
+	return "UpdateWaitingRoomMessageReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateWaitingRoomMessageReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateWaitingRoomMessageReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateWaitingRoomMessageReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateWaitingRoomMessageReqValidationError{}
+
+// Validate checks the field values on UpdateUserLockSettingsReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateUserLockSettingsReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateUserLockSettingsReq with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateUserLockSettingsReqMultiError, or nil if none found.
+func (m *UpdateUserLockSettingsReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateUserLockSettingsReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RoomSid
+
+	// no validation rules for RoomId
+
+	// no validation rules for UserId
+
+	// no validation rules for Service
+
+	// no validation rules for Direction
+
+	// no validation rules for RequestedUserId
+
+	if len(errors) > 0 {
+		return UpdateUserLockSettingsReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateUserLockSettingsReqMultiError is an error wrapping multiple validation
+// errors returned by UpdateUserLockSettingsReq.ValidateAll() if the
+// designated constraints aren't met.
+type UpdateUserLockSettingsReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateUserLockSettingsReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateUserLockSettingsReqMultiError) AllErrors() []error { return m }
+
+// UpdateUserLockSettingsReqValidationError is the validation error returned by
+// UpdateUserLockSettingsReq.Validate if the designated constraints aren't met.
+type UpdateUserLockSettingsReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateUserLockSettingsReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateUserLockSettingsReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateUserLockSettingsReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateUserLockSettingsReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateUserLockSettingsReqValidationError) ErrorName() string {
+	return "UpdateUserLockSettingsReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateUserLockSettingsReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateUserLockSettingsReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateUserLockSettingsReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateUserLockSettingsReqValidationError{}
