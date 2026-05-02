@@ -381,6 +381,21 @@ func (m *RoomMetadata) validate(all bool) error {
 
 	}
 
+	if m.MetadataId != nil {
+
+		if m.GetMetadataId() != "" {
+			err := RoomMetadataValidationError{
+				field:  "MetadataId",
+				reason: "value must equal ",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return RoomMetadataMultiError(errors)
 	}
@@ -1850,6 +1865,8 @@ func (m *RecordingFeatures) validate(all bool) error {
 	// no validation rules for EnableAutoCloudRecording
 
 	// no validation rules for IsAllowLocal
+
+	// no validation rules for OnlyRecordAdminWebcams
 
 	if len(errors) > 0 {
 		return RecordingFeaturesMultiError(errors)

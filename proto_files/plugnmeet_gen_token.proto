@@ -25,10 +25,13 @@ message UserInfo {
 message UserMetadata {
   optional string profile_pic = 1 [(validate.rules).string.uri = true];
   bool is_admin = 2;
+  optional bool record_webcam = 7;
   bool is_presenter = 3 [(validate.rules).bool.const = false];
   bool raised_hand = 4 [(validate.rules).bool.const = false];
   bool wait_for_approval = 5 [(validate.rules).bool.const = false];
   LockSettings lock_settings = 6;
+  // we'll use this as version control
+  optional string metadata_id = 13 [(validate.rules).string.const = ""];
 }
 
 message LockSettings {

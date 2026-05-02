@@ -416,6 +416,25 @@ func (m *UserMetadata) validate(all bool) error {
 
 	}
 
+	if m.RecordWebcam != nil {
+		// no validation rules for RecordWebcam
+	}
+
+	if m.MetadataId != nil {
+
+		if m.GetMetadataId() != "" {
+			err := UserMetadataValidationError{
+				field:  "MetadataId",
+				reason: "value must equal ",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return UserMetadataMultiError(errors)
 	}
