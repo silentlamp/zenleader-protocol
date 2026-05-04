@@ -396,6 +396,10 @@ func (m *RoomMetadata) validate(all bool) error {
 
 	}
 
+	if m.ExtraData != nil {
+		// no validation rules for ExtraData
+	}
+
 	if len(errors) > 0 {
 		return RoomMetadataMultiError(errors)
 	}
@@ -510,6 +514,8 @@ func (m *RoomCreateFeatures) validate(all bool) error {
 	// no validation rules for AdminOnlyWebcams
 
 	// no validation rules for AllowPolls
+
+	// no validation rules for EnableAnalytics
 
 	if all {
 		switch v := interface{}(m.GetRecordingFeatures()).(type) {
@@ -1226,8 +1232,6 @@ func (m *WhiteboardFeatures) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for PreloadFile
-
 	if m.GetWhiteboardFileId() != "" {
 		err := WhiteboardFeaturesValidationError{
 			field:  "WhiteboardFileId",
@@ -1262,6 +1266,31 @@ func (m *WhiteboardFeatures) validate(all bool) error {
 	}
 
 	// no validation rules for TotalPages
+
+	if m.PreloadFile != nil {
+
+		if uri, err := url.Parse(m.GetPreloadFile()); err != nil {
+			err = WhiteboardFeaturesValidationError{
+				field:  "PreloadFile",
+				reason: "value must be a valid URI",
+				cause:  err,
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		} else if !uri.IsAbs() {
+			err := WhiteboardFeaturesValidationError{
+				field:  "PreloadFile",
+				reason: "value must be absolute",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
 
 	if len(errors) > 0 {
 		return WhiteboardFeaturesMultiError(errors)

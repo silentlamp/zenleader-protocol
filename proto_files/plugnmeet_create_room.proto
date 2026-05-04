@@ -32,6 +32,7 @@ message RoomMetadata {
   CopyrightConf copyright_conf = 12;
   // we'll use this as version control
   optional string metadata_id = 13 [(validate.rules).string.const = ""];
+  optional string extra_data = 14;
 }
 
 message RoomCreateFeatures {
@@ -44,6 +45,7 @@ message RoomCreateFeatures {
   bool admin_only_webcams = 8;
   bool allow_polls = 9;
   optional uint64 room_duration = 10;
+  bool enable_analytics = 22;
   RecordingFeatures recording_features = 11;
   ChatFeatures chat_features = 12;
   SharedNotePadFeatures shared_note_pad_features = 13;
@@ -55,6 +57,7 @@ message RoomCreateFeatures {
   IngressFeatures ingress_features = 19;
   SpeechToTextTranslationFeatures speech_to_text_translation_features = 20;
   EndToEndEncryptionFeatures end_to_end_encryption_features = 21;
+  // next ID: 23
 }
 
 message ChatFeatures {
@@ -77,7 +80,7 @@ message SharedNotePadFeatures {
 message WhiteboardFeatures {
   bool allowed_whiteboard = 1;
   bool visible = 2 [(validate.rules).bool.const = false];
-  string preload_file = 3;
+  optional string preload_file = 3 [(validate.rules).string.uri = true];
   string whiteboard_file_id = 4 [(validate.rules).string.const = ""];
   string file_name = 5 [(validate.rules).string.const = ""];
   string file_path = 6 [(validate.rules).string.const = ""];
