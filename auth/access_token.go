@@ -18,8 +18,8 @@ func GeneratePlugNmeetJWTAccessToken(apiKey, secret, userId string, tokenValidit
 
 	cl := &jwt.Claims{
 		Issuer:    apiKey,
-		NotBefore: jwt.NewNumericDate(time.Now()),
-		Expiry:    jwt.NewNumericDate(time.Now().Add(tokenValidity)),
+		NotBefore: jwt.NewNumericDate(time.Now().UTC()),
+		Expiry:    jwt.NewNumericDate(time.Now().UTC().Add(tokenValidity)),
 		Subject:   userId,
 	}
 	return jwt.Signed(sig).Claims(cl).Claims(c).CompactSerialize()
