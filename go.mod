@@ -2,17 +2,15 @@ module github.com/mynaparrot/plugnmeet-protocol
 
 go 1.22
 
-toolchain go1.22.3
-
 require (
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.34.1-20240401165935-b983156c5e99.1
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.34.1-20240508200655-46a4cf4ba109.1
 	github.com/frostbyte73/core v0.0.10
-	github.com/go-jose/go-jose/v4 v4.0.1
+	github.com/go-jose/go-jose/v4 v4.0.2
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/google/uuid v1.6.0
-	github.com/hashicorp/go-retryablehttp v0.7.5
-	github.com/livekit/protocol v1.15.0
+	github.com/hashicorp/go-retryablehttp v0.7.6
+	github.com/livekit/protocol v1.16.0
 	github.com/redis/go-redis/v9 v9.5.1
 	github.com/sirupsen/logrus v1.9.3
 	go.uber.org/atomic v1.11.0
@@ -39,7 +37,7 @@ require (
 	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/exp v0.0.0-20240404231335-c0f41cb1a7a0 // indirect
 	golang.org/x/net v0.24.0 // indirect
-	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240401170217-c3f982113cda // indirect
 	google.golang.org/grpc v1.63.0 // indirect
