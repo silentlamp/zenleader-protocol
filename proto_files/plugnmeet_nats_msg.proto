@@ -1,0 +1,69 @@
+syntax = "proto3";
+package plugnmeet;
+
+option go_package = "github.com/mynaparrot/plugnmeet-protocol/plugnmeet";
+
+enum NatsMsgServerToClientEvents {
+  UNKNOWN_NATS_SERVER_EVENT = 0;
+
+  // initial data
+  ROOM_INFO = 1;
+  LOCAL_USER_INFO = 2;
+  JOINED_USERS_LIST = 3;
+  MEDIA_SERVER_INFO = 10;
+
+  ROOM_METADATA_UPDATE = 4;
+  USER_METADATA_UPDATE = 5;
+
+  USER_JOINED = 6;
+  USER_DISCONNECTED = 7;
+  USER_OFFLINE = 8;
+
+  PMN_RENEWED_TOKEN = 9;
+
+  //next ID: 11
+}
+
+enum NatsMsgClientToServerEvents {
+  UNKNOWN_NATS_CLIENT_EVENT = 0;
+  RENEW_PNM_TOKEN = 1;
+}
+
+message NatsMsgServerToClient {
+  string id = 1;
+  NatsMsgServerToClientEvents event = 2;
+  string msg = 3;
+}
+
+message NatsMsgClientToServer {
+  string id = 1;
+  NatsMsgClientToServerEvents event = 2;
+  string msg = 3;
+}
+
+message NatsKvRoomInfo {
+  string room_id = 1;
+  string room_sid = 2;
+  bool enabled_e2ee = 3;
+  string metadata = 4;
+  uint64 created_at = 5;
+}
+
+message NatsKvUserInfo {
+  string user_id = 1;
+  string user_sid = 2;
+  string name = 3;
+  string room_id = 4;
+  bool is_admin = 5;
+  bool is_presenter = 6;
+  string metadata = 7;
+  uint64 joined_at = 8;
+  uint64 reconnected_at = 9;
+  uint64 disconnected_at = 10;
+}
+
+message MediaServerConnInfo {
+  string url = 1;
+  string token = 2;
+  bool enabled_e2ee = 3;
+}
