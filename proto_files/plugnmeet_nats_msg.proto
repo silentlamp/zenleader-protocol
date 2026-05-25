@@ -3,30 +3,33 @@ package plugnmeet;
 
 option go_package = "github.com/mynaparrot/plugnmeet-protocol/plugnmeet";
 
+import "plugnmeet_datamessage.proto";
+
 enum NatsMsgServerToClientEvents {
-  UNKNOWN_NATS_SERVER_EVENT = 0;
-
   // initial data
-  ROOM_INFO = 1;
-  LOCAL_USER_INFO = 2;
-  JOINED_USERS_LIST = 3;
-  MEDIA_SERVER_INFO = 10;
+  INITIAL_DATA = 0;
+  JOINED_USERS_LIST = 1;
 
-  ROOM_METADATA_UPDATE = 4;
-  USER_METADATA_UPDATE = 5;
+  ROOM_METADATA_UPDATE = 2;
+  USER_METADATA_UPDATE = 3;
 
-  USER_JOINED = 6;
-  USER_DISCONNECTED = 7;
-  USER_OFFLINE = 8;
+  USER_JOINED = 4;
+  USER_DISCONNECTED = 5;
+  USER_OFFLINE = 7;
 
-  PMN_RENEWED_TOKEN = 9;
+  RESP_RENEW_PNM_TOKEN = 8;
+  SYSTEM_NOTIFICATION = 9;
+  RESP_DATA_MSG = 10;
 
   //next ID: 11
 }
 
 enum NatsMsgClientToServerEvents {
-  UNKNOWN_NATS_CLIENT_EVENT = 0;
-  RENEW_PNM_TOKEN = 1;
+  REQ_INITIAL_DATA = 0;
+  REQ_RENEW_PNM_TOKEN = 1;
+  REQ_DATA_MSG = 3;
+  PING = 4;
+  REQ_LOGOUT = 5;
 }
 
 message NatsMsgServerToClient {
@@ -44,9 +47,10 @@ message NatsMsgClientToServer {
 message NatsKvRoomInfo {
   string room_id = 1;
   string room_sid = 2;
-  bool enabled_e2ee = 3;
-  string metadata = 4;
-  uint64 created_at = 5;
+  uint64 empty_timeout = 3;
+  bool enabled_e2ee = 4;
+  string metadata = 5;
+  uint64 created_at = 6;
 }
 
 message NatsKvUserInfo {
@@ -67,3 +71,45 @@ message MediaServerConnInfo {
   string token = 2;
   bool enabled_e2ee = 3;
 }
+
+message NatsInitialData {
+  NatsKvRoomInfo room = 1;
+  NatsKvUserInfo local_user = 2;
+  MediaServerConnInfo media_server_info = 3;
+}
+
+enum NatsSystemNotificationTypes {
+  NATS_SYSTEM_NOTIFICATION_INFO = 0;
+  NATS_SYSTEM_NOTIFICATION_WARNING = 1;
+  NATS_SYSTEM_NOTIFICATION_ERROR = 2;
+}
+
+message NatsSystemNotification {
+  string id = 1;
+  NatsSystemNotificationTypes type = 2;
+  string msg = 3;
+  int64 sent_at = 4;
+}
+
+message NatsUserMetadataUpdate {
+  string user_id = 1;
+  string metadata = 2;
+}
+
+message ChatMessage {
+  string id = 1;
+  string from_name = 2;
+  string from_user_id = 3;
+  optional string to_user_id = 5;
+  bool is_private = 6;
+  string message = 7;
+}
+
+message DataChannelMessage {
+  string id = 1;
+  DataMsgBodyType type = 2;
+  string from_user_id = 3;
+  string to_user_id = 4;
+  string message = 5;
+}
+

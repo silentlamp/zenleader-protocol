@@ -277,6 +277,8 @@ func (m *NatsKvRoomInfo) validate(all bool) error {
 
 	// no validation rules for RoomSid
 
+	// no validation rules for EmptyTimeout
+
 	// no validation rules for EnabledE2Ee
 
 	// no validation rules for Metadata
@@ -588,3 +590,631 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = MediaServerConnInfoValidationError{}
+
+// Validate checks the field values on NatsInitialData with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *NatsInitialData) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on NatsInitialData with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// NatsInitialDataMultiError, or nil if none found.
+func (m *NatsInitialData) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *NatsInitialData) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetRoom()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, NatsInitialDataValidationError{
+					field:  "Room",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, NatsInitialDataValidationError{
+					field:  "Room",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRoom()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return NatsInitialDataValidationError{
+				field:  "Room",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLocalUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, NatsInitialDataValidationError{
+					field:  "LocalUser",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, NatsInitialDataValidationError{
+					field:  "LocalUser",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLocalUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return NatsInitialDataValidationError{
+				field:  "LocalUser",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetMediaServerInfo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, NatsInitialDataValidationError{
+					field:  "MediaServerInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, NatsInitialDataValidationError{
+					field:  "MediaServerInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMediaServerInfo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return NatsInitialDataValidationError{
+				field:  "MediaServerInfo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return NatsInitialDataMultiError(errors)
+	}
+
+	return nil
+}
+
+// NatsInitialDataMultiError is an error wrapping multiple validation errors
+// returned by NatsInitialData.ValidateAll() if the designated constraints
+// aren't met.
+type NatsInitialDataMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NatsInitialDataMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NatsInitialDataMultiError) AllErrors() []error { return m }
+
+// NatsInitialDataValidationError is the validation error returned by
+// NatsInitialData.Validate if the designated constraints aren't met.
+type NatsInitialDataValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NatsInitialDataValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NatsInitialDataValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NatsInitialDataValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NatsInitialDataValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NatsInitialDataValidationError) ErrorName() string { return "NatsInitialDataValidationError" }
+
+// Error satisfies the builtin error interface
+func (e NatsInitialDataValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNatsInitialData.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NatsInitialDataValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NatsInitialDataValidationError{}
+
+// Validate checks the field values on NatsSystemNotification with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *NatsSystemNotification) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on NatsSystemNotification with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// NatsSystemNotificationMultiError, or nil if none found.
+func (m *NatsSystemNotification) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *NatsSystemNotification) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Type
+
+	// no validation rules for Msg
+
+	// no validation rules for SentAt
+
+	if len(errors) > 0 {
+		return NatsSystemNotificationMultiError(errors)
+	}
+
+	return nil
+}
+
+// NatsSystemNotificationMultiError is an error wrapping multiple validation
+// errors returned by NatsSystemNotification.ValidateAll() if the designated
+// constraints aren't met.
+type NatsSystemNotificationMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NatsSystemNotificationMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NatsSystemNotificationMultiError) AllErrors() []error { return m }
+
+// NatsSystemNotificationValidationError is the validation error returned by
+// NatsSystemNotification.Validate if the designated constraints aren't met.
+type NatsSystemNotificationValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NatsSystemNotificationValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NatsSystemNotificationValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NatsSystemNotificationValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NatsSystemNotificationValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NatsSystemNotificationValidationError) ErrorName() string {
+	return "NatsSystemNotificationValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e NatsSystemNotificationValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNatsSystemNotification.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NatsSystemNotificationValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NatsSystemNotificationValidationError{}
+
+// Validate checks the field values on NatsUserMetadataUpdate with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *NatsUserMetadataUpdate) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on NatsUserMetadataUpdate with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// NatsUserMetadataUpdateMultiError, or nil if none found.
+func (m *NatsUserMetadataUpdate) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *NatsUserMetadataUpdate) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for Metadata
+
+	if len(errors) > 0 {
+		return NatsUserMetadataUpdateMultiError(errors)
+	}
+
+	return nil
+}
+
+// NatsUserMetadataUpdateMultiError is an error wrapping multiple validation
+// errors returned by NatsUserMetadataUpdate.ValidateAll() if the designated
+// constraints aren't met.
+type NatsUserMetadataUpdateMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NatsUserMetadataUpdateMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NatsUserMetadataUpdateMultiError) AllErrors() []error { return m }
+
+// NatsUserMetadataUpdateValidationError is the validation error returned by
+// NatsUserMetadataUpdate.Validate if the designated constraints aren't met.
+type NatsUserMetadataUpdateValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NatsUserMetadataUpdateValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NatsUserMetadataUpdateValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NatsUserMetadataUpdateValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NatsUserMetadataUpdateValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NatsUserMetadataUpdateValidationError) ErrorName() string {
+	return "NatsUserMetadataUpdateValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e NatsUserMetadataUpdateValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNatsUserMetadataUpdate.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NatsUserMetadataUpdateValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NatsUserMetadataUpdateValidationError{}
+
+// Validate checks the field values on ChatMessage with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ChatMessage) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ChatMessage with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ChatMessageMultiError, or
+// nil if none found.
+func (m *ChatMessage) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ChatMessage) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for FromName
+
+	// no validation rules for FromUserId
+
+	// no validation rules for IsPrivate
+
+	// no validation rules for Message
+
+	if m.ToUserId != nil {
+		// no validation rules for ToUserId
+	}
+
+	if len(errors) > 0 {
+		return ChatMessageMultiError(errors)
+	}
+
+	return nil
+}
+
+// ChatMessageMultiError is an error wrapping multiple validation errors
+// returned by ChatMessage.ValidateAll() if the designated constraints aren't met.
+type ChatMessageMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ChatMessageMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ChatMessageMultiError) AllErrors() []error { return m }
+
+// ChatMessageValidationError is the validation error returned by
+// ChatMessage.Validate if the designated constraints aren't met.
+type ChatMessageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ChatMessageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ChatMessageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ChatMessageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ChatMessageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ChatMessageValidationError) ErrorName() string { return "ChatMessageValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ChatMessageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sChatMessage.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ChatMessageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ChatMessageValidationError{}
+
+// Validate checks the field values on DataChannelMessage with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DataChannelMessage) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DataChannelMessage with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DataChannelMessageMultiError, or nil if none found.
+func (m *DataChannelMessage) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DataChannelMessage) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Type
+
+	// no validation rules for FromUserId
+
+	// no validation rules for ToUserId
+
+	// no validation rules for Message
+
+	if len(errors) > 0 {
+		return DataChannelMessageMultiError(errors)
+	}
+
+	return nil
+}
+
+// DataChannelMessageMultiError is an error wrapping multiple validation errors
+// returned by DataChannelMessage.ValidateAll() if the designated constraints
+// aren't met.
+type DataChannelMessageMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DataChannelMessageMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DataChannelMessageMultiError) AllErrors() []error { return m }
+
+// DataChannelMessageValidationError is the validation error returned by
+// DataChannelMessage.Validate if the designated constraints aren't met.
+type DataChannelMessageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DataChannelMessageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DataChannelMessageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DataChannelMessageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DataChannelMessageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DataChannelMessageValidationError) ErrorName() string {
+	return "DataChannelMessageValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DataChannelMessageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDataChannelMessage.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DataChannelMessageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DataChannelMessageValidationError{}
