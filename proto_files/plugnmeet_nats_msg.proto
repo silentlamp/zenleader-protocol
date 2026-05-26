@@ -5,6 +5,17 @@ option go_package = "github.com/mynaparrot/plugnmeet-protocol/plugnmeet";
 
 import "plugnmeet_datamessage.proto";
 
+
+message NatsSubjects {
+  string system_api_worker = 1;
+  string system_js_worker = 2;
+  string system_public = 3;
+  string system_private = 4;
+  string chat = 5;
+  string whiteboard = 6;
+  string data_channel = 7;
+}
+
 enum NatsMsgServerToClientEvents {
   // initial data
   INITIAL_DATA = 0;
@@ -21,15 +32,30 @@ enum NatsMsgServerToClientEvents {
   SYSTEM_NOTIFICATION = 9;
   RESP_DATA_MSG = 10;
 
-  //next ID: 11
+  AZURE_COGNITIVE_SERVICE_SPEECH_TOKEN = 11;
+  SESSION_ENDED = 12;
+  POLL_CLOSED = 13;
+  POLL_CREATED = 14;
+  JOIN_BREAKOUT_ROOM = 15;
+  SYSTEM_CHAT_MSG = 16; // mostly system message display in chat
+
+  //next ID: 17
 }
 
 enum NatsMsgClientToServerEvents {
   REQ_INITIAL_DATA = 0;
   REQ_RENEW_PNM_TOKEN = 1;
-  REQ_DATA_MSG = 3;
-  PING = 4;
-  REQ_LOGOUT = 5;
+  REQ_DATA_MSG = 2;
+  PING = 3;
+  REQ_LOGOUT = 4;
+
+  REQ_RAISE_HAND = 5;
+  REQ_LOWER_HAND = 6;
+  REQ_LOWER_OTHER_USER_HAND = 7;
+
+  PUSH_ANALYTICS_DATA = 8;
+
+  //next ID: 9
 }
 
 message NatsMsgServerToClient {
@@ -45,12 +71,14 @@ message NatsMsgClientToServer {
 }
 
 message NatsKvRoomInfo {
-  string room_id = 1;
-  string room_sid = 2;
-  uint64 empty_timeout = 3;
-  bool enabled_e2ee = 4;
-  string metadata = 5;
-  uint64 created_at = 6;
+  uint64 db_table_id = 1;
+  string room_id = 2;
+  string room_sid = 3;
+  string status = 4;
+  uint64 empty_timeout = 5;
+  bool enabled_e2ee = 6;
+  string metadata = 7;
+  uint64 created_at = 8;
 }
 
 message NatsKvUserInfo {
@@ -89,6 +117,7 @@ message NatsSystemNotification {
   NatsSystemNotificationTypes type = 2;
   string msg = 3;
   int64 sent_at = 4;
+  bool with_sound = 5;
 }
 
 message NatsUserMetadataUpdate {
