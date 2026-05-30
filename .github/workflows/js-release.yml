@@ -2,7 +2,7 @@ name: Build and release client
 on:
   push:
     branches:
-      - 'nats'
+      - 'main'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,6 +22,10 @@ jobs:
         with:
           patch-wording:  'patch,fixes,fix'
           rc-wording:     'test,alpha,wip,test-release,release'
+          commit-message: 'bump'
+          bump-policy: 'all'
+          skip-commit:  'true'
+          skip-tag: 'false'
       - name: setup node
         uses: actions/setup-node@v4
         with:
