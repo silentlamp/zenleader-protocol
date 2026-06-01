@@ -377,6 +377,10 @@ func (m *UserMetadata) validate(all bool) error {
 		// no validation rules for MetadataId
 	}
 
+	if m.ExtraData != nil {
+		// no validation rules for ExtraData
+	}
+
 	if len(errors) > 0 {
 		return UserMetadataMultiError(errors)
 	}
