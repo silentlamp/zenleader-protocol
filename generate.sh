@@ -24,3 +24,4 @@ fi
 
 buf dep update
 buf generate
+
