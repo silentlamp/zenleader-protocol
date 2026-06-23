@@ -1,6 +1,6 @@
 {
   "name": "plugnmeet-protocol-js",
-  "version": "1.0.16-6",
+  "version": "1.0.16-10",
   "description": "plugNmeet JS proto files",
   "author": "Jibon L. Costa",
   "license": "MIT",
@@ -15,15 +15,18 @@
     "preinstall": "npx only-allow pnpm",
     "build": "rm -rf ./dist && parcel build"
   },
+  "peerDependencies": {
+    "@bufbuild/protobuf": "2.5.2"
+  },
   "dependencies": {
-    "@bufbuild/protobuf": "2.4.0"
+    "@bufbuild/protobuf": "2.5.2"
   },
   "devDependencies": {
-    "@bufbuild/buf": "1.54.0",
-    "@bufbuild/protoc-gen-es": "2.4.0",
-    "@parcel/packager-ts": "2.15.0",
-    "@parcel/transformer-typescript-types": "2.15.0",
-    "parcel": "2.15.0",
+    "@bufbuild/buf": "1.55.1",
+    "@bufbuild/protoc-gen-es": "2.5.2",
+    "@parcel/packager-ts": "2.15.4",
+    "@parcel/transformer-typescript-types": "2.15.4",
+    "parcel": "2.15.4",
     "typescript": "5.8.3"
   }
 }
