@@ -3,22 +3,21 @@ module github.com/mynaparrot/plugnmeet-protocol
 go 1.24
 
 require (
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250625184727-c923a0c2a132.1
-	github.com/frostbyte73/core v0.1.1
-	github.com/go-jose/go-jose/v4 v4.1.1
-	github.com/gofiber/fiber/v2 v2.52.8
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.7-20250717185734-6c6e0d3c608e.1
+	github.com/go-jose/go-jose/v4 v4.1.2
+	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/google/uuid v1.6.0
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/livekit/protocol v1.39.3
-	github.com/nats-io/jwt/v2 v2.7.4
-	github.com/nats-io/nats.go v1.43.0
+	github.com/nats-io/jwt/v2 v2.8.0
+	github.com/nats-io/nats.go v1.44.0
 	github.com/nats-io/nkeys v0.4.11
 	github.com/sirupsen/logrus v1.9.3
-	google.golang.org/protobuf v1.36.6
+	google.golang.org/protobuf v1.36.7
 )
 
 require (
-	buf.build/go/protovalidate v0.13.1 // indirect
+	buf.build/go/protovalidate v0.14.0 // indirect
 	buf.build/go/protoyaml v0.6.0 // indirect
 	cel.dev/expr v0.24.0 // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
@@ -27,6 +26,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dennwc/iters v1.1.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/frostbyte73/core v0.1.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/gammazero/deque v1.0.0 // indirect
 	github.com/go-jose/go-jose/v3 v3.0.4 // indirect
