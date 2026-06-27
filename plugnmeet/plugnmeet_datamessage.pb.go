@@ -32,16 +32,22 @@ const (
 	DataMsgBodyType_USER_VISIBILITY_CHANGE       DataMsgBodyType = 4
 	DataMsgBodyType_EXTERNAL_MEDIA_PLAYER_EVENTS DataMsgBodyType = 5
 	DataMsgBodyType_NEW_POLL_RESPONSE            DataMsgBodyType = 6
+	DataMsgBodyType_PUSH_JOIN_BREAKOUT_ROOM      DataMsgBodyType = 19
 	DataMsgBodyType_SPEECH_SUBTITLE_TEXT         DataMsgBodyType = 7
 	// WHITEBOARD type
-	DataMsgBodyType_REQ_FULL_WHITEBOARD_DATA       DataMsgBodyType = 8
-	DataMsgBodyType_RES_FULL_WHITEBOARD_DATA       DataMsgBodyType = 9
-	DataMsgBodyType_SCENE_UPDATE                   DataMsgBodyType = 10
-	DataMsgBodyType_POINTER_UPDATE                 DataMsgBodyType = 11
-	DataMsgBodyType_WHITEBOARD_APP_STATE_CHANGE    DataMsgBodyType = 12
-	DataMsgBodyType_ADD_WHITEBOARD_FILE            DataMsgBodyType = 13
+	DataMsgBodyType_REQ_FULL_WHITEBOARD_DATA         DataMsgBodyType = 8
+	DataMsgBodyType_RES_FULL_WHITEBOARD_DATA         DataMsgBodyType = 9
+	DataMsgBodyType_SCENE_UPDATE                     DataMsgBodyType = 10
+	DataMsgBodyType_POINTER_UPDATE                   DataMsgBodyType = 11
+	DataMsgBodyType_WHITEBOARD_APP_STATE_CHANGE      DataMsgBodyType = 12
+	DataMsgBodyType_PAGE_CHANGE                      DataMsgBodyType = 15
+	DataMsgBodyType_FILE_CHANGE                      DataMsgBodyType = 17
+	DataMsgBodyType_UPDATE_CURRENT_OFFICE_FILE_PAGES DataMsgBodyType = 18
+	DataMsgBodyType_WHITEBOARD_RESET                 DataMsgBodyType = 20
+	// Deprecated: Marked as deprecated in plugnmeet_datamessage.proto.
+	DataMsgBodyType_ADD_WHITEBOARD_FILE DataMsgBodyType = 13
+	// Deprecated: Marked as deprecated in plugnmeet_datamessage.proto.
 	DataMsgBodyType_ADD_WHITEBOARD_OFFICE_FILE     DataMsgBodyType = 14
-	DataMsgBodyType_PAGE_CHANGE                    DataMsgBodyType = 15
 	DataMsgBodyType_USER_CONNECTION_QUALITY_CHANGE DataMsgBodyType = 16
 )
 
@@ -55,35 +61,43 @@ var (
 		4:  "USER_VISIBILITY_CHANGE",
 		5:  "EXTERNAL_MEDIA_PLAYER_EVENTS",
 		6:  "NEW_POLL_RESPONSE",
+		19: "PUSH_JOIN_BREAKOUT_ROOM",
 		7:  "SPEECH_SUBTITLE_TEXT",
 		8:  "REQ_FULL_WHITEBOARD_DATA",
 		9:  "RES_FULL_WHITEBOARD_DATA",
 		10: "SCENE_UPDATE",
 		11: "POINTER_UPDATE",
 		12: "WHITEBOARD_APP_STATE_CHANGE",
+		15: "PAGE_CHANGE",
+		17: "FILE_CHANGE",
+		18: "UPDATE_CURRENT_OFFICE_FILE_PAGES",
+		20: "WHITEBOARD_RESET",
 		13: "ADD_WHITEBOARD_FILE",
 		14: "ADD_WHITEBOARD_OFFICE_FILE",
-		15: "PAGE_CHANGE",
 		16: "USER_CONNECTION_QUALITY_CHANGE",
 	}
 	DataMsgBodyType_value = map[string]int32{
-		"UNKNOWN":                        0,
-		"FILE_UPLOAD":                    1,
-		"INFO":                           2,
-		"ALERT":                          3,
-		"USER_VISIBILITY_CHANGE":         4,
-		"EXTERNAL_MEDIA_PLAYER_EVENTS":   5,
-		"NEW_POLL_RESPONSE":              6,
-		"SPEECH_SUBTITLE_TEXT":           7,
-		"REQ_FULL_WHITEBOARD_DATA":       8,
-		"RES_FULL_WHITEBOARD_DATA":       9,
-		"SCENE_UPDATE":                   10,
-		"POINTER_UPDATE":                 11,
-		"WHITEBOARD_APP_STATE_CHANGE":    12,
-		"ADD_WHITEBOARD_FILE":            13,
-		"ADD_WHITEBOARD_OFFICE_FILE":     14,
-		"PAGE_CHANGE":                    15,
-		"USER_CONNECTION_QUALITY_CHANGE": 16,
+		"UNKNOWN":                          0,
+		"FILE_UPLOAD":                      1,
+		"INFO":                             2,
+		"ALERT":                            3,
+		"USER_VISIBILITY_CHANGE":           4,
+		"EXTERNAL_MEDIA_PLAYER_EVENTS":     5,
+		"NEW_POLL_RESPONSE":                6,
+		"PUSH_JOIN_BREAKOUT_ROOM":          19,
+		"SPEECH_SUBTITLE_TEXT":             7,
+		"REQ_FULL_WHITEBOARD_DATA":         8,
+		"RES_FULL_WHITEBOARD_DATA":         9,
+		"SCENE_UPDATE":                     10,
+		"POINTER_UPDATE":                   11,
+		"WHITEBOARD_APP_STATE_CHANGE":      12,
+		"PAGE_CHANGE":                      15,
+		"FILE_CHANGE":                      17,
+		"UPDATE_CURRENT_OFFICE_FILE_PAGES": 18,
+		"WHITEBOARD_RESET":                 20,
+		"ADD_WHITEBOARD_FILE":              13,
+		"ADD_WHITEBOARD_OFFICE_FILE":       14,
+		"USER_CONNECTION_QUALITY_CHANGE":   16,
 	}
 )
 
@@ -203,7 +217,7 @@ const file_plugnmeet_datamessage_proto_rawDesc = "" +
 	"\n" +
 	"to_user_id\x18\x04 \x01(\tH\x00R\btoUserId\x88\x01\x01\x12\x18\n" +
 	"\amessage\x18\x05 \x01(\tR\amessageB\r\n" +
-	"\v_to_user_id*\xa4\x03\n" +
+	"\v_to_user_id*\x96\x04\n" +
 	"\x0fDataMsgBodyType\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x0f\n" +
 	"\vFILE_UPLOAD\x10\x01\x12\b\n" +
@@ -211,17 +225,21 @@ const file_plugnmeet_datamessage_proto_rawDesc = "" +
 	"\x05ALERT\x10\x03\x12\x1a\n" +
 	"\x16USER_VISIBILITY_CHANGE\x10\x04\x12 \n" +
 	"\x1cEXTERNAL_MEDIA_PLAYER_EVENTS\x10\x05\x12\x15\n" +
-	"\x11NEW_POLL_RESPONSE\x10\x06\x12\x18\n" +
+	"\x11NEW_POLL_RESPONSE\x10\x06\x12\x1b\n" +
+	"\x17PUSH_JOIN_BREAKOUT_ROOM\x10\x13\x12\x18\n" +
 	"\x14SPEECH_SUBTITLE_TEXT\x10\a\x12\x1c\n" +
 	"\x18REQ_FULL_WHITEBOARD_DATA\x10\b\x12\x1c\n" +
 	"\x18RES_FULL_WHITEBOARD_DATA\x10\t\x12\x10\n" +
 	"\fSCENE_UPDATE\x10\n" +
 	"\x12\x12\n" +
 	"\x0ePOINTER_UPDATE\x10\v\x12\x1f\n" +
-	"\x1bWHITEBOARD_APP_STATE_CHANGE\x10\f\x12\x17\n" +
-	"\x13ADD_WHITEBOARD_FILE\x10\r\x12\x1e\n" +
-	"\x1aADD_WHITEBOARD_OFFICE_FILE\x10\x0e\x12\x0f\n" +
-	"\vPAGE_CHANGE\x10\x0f\x12\"\n" +
+	"\x1bWHITEBOARD_APP_STATE_CHANGE\x10\f\x12\x0f\n" +
+	"\vPAGE_CHANGE\x10\x0f\x12\x0f\n" +
+	"\vFILE_CHANGE\x10\x11\x12$\n" +
+	" UPDATE_CURRENT_OFFICE_FILE_PAGES\x10\x12\x12\x14\n" +
+	"\x10WHITEBOARD_RESET\x10\x14\x12\x1b\n" +
+	"\x13ADD_WHITEBOARD_FILE\x10\r\x1a\x02\b\x01\x12\"\n" +
+	"\x1aADD_WHITEBOARD_OFFICE_FILE\x10\x0e\x1a\x02\b\x01\x12\"\n" +
 	"\x1eUSER_CONNECTION_QUALITY_CHANGE\x10\x10B\xa2\x01\n" +
 	"\rcom.plugnmeetB\x19PlugnmeetDatamessageProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
