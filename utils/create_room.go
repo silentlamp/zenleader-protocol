@@ -97,6 +97,20 @@ func PrepareDefaultRoomFeatures(r *plugnmeet.CreateRoomReq) {
 		}
 	}
 
+	if rf.InsightsFeatures == nil {
+		rf.InsightsFeatures = &plugnmeet.InsightsFeatures{
+			IsAllow: false,
+			TranscriptionFeatures: &plugnmeet.InsightsTranscriptionFeatures{
+				IsAllow:               false,
+				MaxSelectedTransLangs: 2,
+			},
+			ChatTranslationFeatures: &plugnmeet.InsightsChatTranslationFeatures{
+				IsAllow:               false,
+				MaxSelectedTransLangs: 5,
+			},
+		}
+	}
+
 	if r.Metadata.DefaultLockSettings == nil {
 		r.Metadata.DefaultLockSettings = new(plugnmeet.LockSettings)
 	}
