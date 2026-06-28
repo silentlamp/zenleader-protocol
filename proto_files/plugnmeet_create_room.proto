@@ -228,25 +228,28 @@ message InsightsFeatures {
   bool is_allow = 1; // Allow/disallow all insights features for this room
   optional InsightsTranscriptionFeatures transcription_features = 2;
   optional InsightsChatTranslationFeatures chat_translation_features = 3;
+  optional InsightsAIFeatures ai_features = 4;
 }
 
 message InsightsTranscriptionFeatures {
   bool is_allow = 1;
   bool is_allow_translation = 2;
+  bool is_allow_speech_synthesis = 3;
 
   // all internal usage fields
-  bool is_enabled = 3 [(buf.validate.field).bool.const = false];
-  repeated string allowed_spoken_langs = 4 [(buf.validate.field).repeated.max_items = 0];
-  repeated string allowed_speech_users = 5 [(buf.validate.field).repeated.max_items = 0];
+  bool is_enabled = 4 [(buf.validate.field).bool.const = false];
+  repeated string allowed_spoken_langs = 5 [(buf.validate.field).repeated.max_items = 0];
+  repeated string allowed_speech_users = 6 [(buf.validate.field).repeated.max_items = 0];
 
-  bool is_enabled_translation = 6 [(buf.validate.field).bool.const = false];
-  int32 max_selected_trans_langs = 7 [(buf.validate.field).int32.const = 0];
-  repeated string allowed_trans_langs = 8 [(buf.validate.field).repeated.max_items = 0];
-  optional string default_subtitle_lang = 9 [(buf.validate.field).cel = {
+  bool is_enabled_translation = 7 [(buf.validate.field).bool.const = false];
+  int32 max_selected_trans_langs = 8 [(buf.validate.field).int32.const = 0];
+  repeated string allowed_trans_langs = 9 [(buf.validate.field).repeated.max_items = 0];
+  optional string default_subtitle_lang = 10 [(buf.validate.field).cel = {
     id: "default_subtitle_lang_format",
     message: "default_subtitle_lang should not contain any value",
     expression: "this.matches('^$')"
   }];
+  bool is_enabled_speech_synthesis = 11 [(buf.validate.field).bool.const = false];
 }
 
 message InsightsChatTranslationFeatures {
@@ -261,6 +264,29 @@ message InsightsChatTranslationFeatures {
     message: "default_lang should not contain any value",
     expression: "this.matches('^$')"
   }];
+}
+
+message InsightsAIFeatures {
+  bool is_allow = 1;
+  optional InsightsAITextChatFeatures ai_text_chat_features = 2;
+  optional InsightsAIMeetingSummarizationFeatures meeting_summarization_features = 3;
+}
+
+message InsightsAITextChatFeatures {
+  bool is_allow = 1;
+
+  // all internal usage fields
+  bool is_enabled = 2 [(buf.validate.field).bool.const = false];
+  bool is_allowed_everyone = 3 [(buf.validate.field).bool.const = false];
+  repeated string allowed_user_ids = 4 [(buf.validate.field).repeated.max_items = 0];
+}
+
+message InsightsAIMeetingSummarizationFeatures {
+  bool is_allow = 1;
+  string summarization_prompt = 2;
+
+  // all internal usage fields
+  bool is_enabled = 3 [(buf.validate.field).bool.const = false];
 }
 
 message CopyrightConf {
