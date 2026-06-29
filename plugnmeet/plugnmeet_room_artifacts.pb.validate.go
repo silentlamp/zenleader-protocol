@@ -388,6 +388,18 @@ func (m *RoomArtifactTokenUsage) validate(all bool) error {
 
 	// no validation rules for Breakdown
 
+	if m.PromptTokensEstimatedCost != nil {
+		// no validation rules for PromptTokensEstimatedCost
+	}
+
+	if m.CompletionTokensEstimatedCost != nil {
+		// no validation rules for CompletionTokensEstimatedCost
+	}
+
+	if m.TotalTokensEstimatedCost != nil {
+		// no validation rules for TotalTokensEstimatedCost
+	}
+
 	if len(errors) > 0 {
 		return RoomArtifactTokenUsageMultiError(errors)
 	}
@@ -494,6 +506,10 @@ func (m *RoomArtifactDurationUsage) validate(all bool) error {
 
 	// no validation rules for Breakdown
 
+	if m.DurationSecEstimatedCost != nil {
+		// no validation rules for DurationSecEstimatedCost
+	}
+
 	if len(errors) > 0 {
 		return RoomArtifactDurationUsageMultiError(errors)
 	}
@@ -573,6 +589,117 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = RoomArtifactDurationUsageValidationError{}
+
+// Validate checks the field values on RoomArtifactCharacterCountUsage with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RoomArtifactCharacterCountUsage) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RoomArtifactCharacterCountUsage with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// RoomArtifactCharacterCountUsageMultiError, or nil if none found.
+func (m *RoomArtifactCharacterCountUsage) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RoomArtifactCharacterCountUsage) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TotalCharacters
+
+	// no validation rules for Breakdown
+
+	if m.TotalCharactersEstimatedCost != nil {
+		// no validation rules for TotalCharactersEstimatedCost
+	}
+
+	if len(errors) > 0 {
+		return RoomArtifactCharacterCountUsageMultiError(errors)
+	}
+
+	return nil
+}
+
+// RoomArtifactCharacterCountUsageMultiError is an error wrapping multiple
+// validation errors returned by RoomArtifactCharacterCountUsage.ValidateAll()
+// if the designated constraints aren't met.
+type RoomArtifactCharacterCountUsageMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RoomArtifactCharacterCountUsageMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RoomArtifactCharacterCountUsageMultiError) AllErrors() []error { return m }
+
+// RoomArtifactCharacterCountUsageValidationError is the validation error
+// returned by RoomArtifactCharacterCountUsage.Validate if the designated
+// constraints aren't met.
+type RoomArtifactCharacterCountUsageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RoomArtifactCharacterCountUsageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RoomArtifactCharacterCountUsageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RoomArtifactCharacterCountUsageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RoomArtifactCharacterCountUsageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RoomArtifactCharacterCountUsageValidationError) ErrorName() string {
+	return "RoomArtifactCharacterCountUsageValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RoomArtifactCharacterCountUsageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRoomArtifactCharacterCountUsage.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RoomArtifactCharacterCountUsageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RoomArtifactCharacterCountUsageValidationError{}
 
 // Validate checks the field values on RoomArtifactMetadata with the rules
 // defined in the proto definition for this message. If any rules are
@@ -766,8 +893,53 @@ func (m *RoomArtifactMetadata) validate(all bool) error {
 			}
 		}
 
+	case *RoomArtifactMetadata_CharacterCountUsage:
+		if v == nil {
+			err := RoomArtifactMetadataValidationError{
+				field:  "UsageDetails",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetCharacterCountUsage()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RoomArtifactMetadataValidationError{
+						field:  "CharacterCountUsage",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RoomArtifactMetadataValidationError{
+						field:  "CharacterCountUsage",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetCharacterCountUsage()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RoomArtifactMetadataValidationError{
+					field:  "CharacterCountUsage",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	default:
 		_ = v // ensures v is used
+	}
+
+	if m.ReferenceArtifactId != nil {
+		// no validation rules for ReferenceArtifactId
 	}
 
 	if len(errors) > 0 {
