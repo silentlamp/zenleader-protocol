@@ -5,11 +5,19 @@ import (
 )
 
 const (
+	TranscoderConsumerDurable = "transcoderWorker"
 	// RecorderKeyPrefix format: recorder_<recorderId>-FIELD_<field>
 	RecorderKeyPrefix = "recorder_"
 	// RecorderKeyFieldPrefix is the separator between the recorderId and the field.
 	RecorderKeyFieldPrefix = "-FIELD_"
 )
+
+type RecorderInfo struct {
+	RecorderId      string
+	MaxLimit        int64
+	CurrentProgress int64
+	LastPing        int64
+}
 
 // FormatRecorderKey generates a key for a specific recorder's field within the consolidated bucket.
 // The format will be `recorder_<recorderId>-FIELD_<field>`.
