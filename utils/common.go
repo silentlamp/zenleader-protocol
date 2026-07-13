@@ -8,10 +8,12 @@ import (
 	rd "math/rand"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/livekit/protocol/livekit"
 	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -24,7 +26,6 @@ var op = protojson.MarshalOptions{
 }
 
 func PrepareCommonWebhookNotifyEvent(event *livekit.WebhookEvent) *plugnmeet.CommonNotifyEvent {
-	ct := uint64(event.Room.CreationTime)
 	return &plugnmeet.CommonNotifyEvent{
 		Event: &event.Event,
 		Room: &plugnmeet.NotifyEventRoom{
@@ -32,7 +33,7 @@ func PrepareCommonWebhookNotifyEvent(event *livekit.WebhookEvent) *plugnmeet.Com
 			RoomId:          &event.Room.Name,
 			EmptyTimeout:    &event.Room.EmptyTimeout,
 			MaxParticipants: &event.Room.MaxParticipants,
-			CreationTime:    &ct,
+			CreationTime:    new(uint64(event.Room.CreationTime)),
 			EnabledCodecs:   event.Room.EnabledCodecs,
 			Metadata:        &event.Room.Metadata,
 			NumParticipants: &event.Room.NumParticipants,
@@ -44,7 +45,7 @@ func PrepareCommonWebhookNotifyEvent(event *livekit.WebhookEvent) *plugnmeet.Com
 	}
 }
 
-func SendCommonProtobufResponse(c *fiber.Ctx, s bool, m string) error {
+func SendCommonProtobufResponse(c fiber.Ctx, s bool, m string) error {
 	res := &plugnmeet.CommonResponse{
 		Status: s,
 		Msg:    m,
@@ -57,7 +58,7 @@ func SendCommonProtobufResponse(c *fiber.Ctx, s bool, m string) error {
 	return c.Send(marshal)
 }
 
-func SendProtobufResponse(c *fiber.Ctx, res proto.Message) error {
+func SendProtobufResponse(c fiber.Ctx, res proto.Message) error {
 	marshal, err := proto.Marshal(res)
 	if err != nil {
 		return err
@@ -66,10 +67,11 @@ func SendProtobufResponse(c *fiber.Ctx, res proto.Message) error {
 	return c.Send(marshal)
 }
 
-func SendCommonProtoJsonResponse(c *fiber.Ctx, s bool, m string) error {
+func SendCommonProtoJsonResponse(c fiber.Ctx, s bool, m string, statusCode plugnmeet.StatusCode) error {
 	res := &plugnmeet.CommonResponse{
-		Status: s,
-		Msg:    m,
+		Status:     s,
+		Msg:        m,
+		StatusCode: statusCode,
 	}
 	marshal, err := op.Marshal(res)
 	if err != nil {
@@ -79,7 +81,7 @@ func SendCommonProtoJsonResponse(c *fiber.Ctx, s bool, m string) error {
 	return c.Send(marshal)
 }
 
-func SendProtoJsonResponse(c *fiber.Ctx, res proto.Message) error {
+func SendProtoJsonResponse(c fiber.Ctx, res proto.Message) error {
 	marshal, err := op.Marshal(res)
 	if err != nil {
 		return err
@@ -139,4 +141,44 @@ func GenerateRandomStrings(n int) string {
 	b := make([]byte, n+2)
 	r.Read(b)
 	return fmt.Sprintf("%x", b)[2 : n+2]
+}
+
+func ParseFileSizeToBytes(sizeStr string) (uint64, error) {
+	sizeStr = strings.TrimSpace(strings.ToLower(sizeStr))
+	var multiplier uint64 = 1
+	var numPart string
+
+	for i, r := range sizeStr {
+		if unicode.IsDigit(r) || r == '.' {
+			numPart += string(r)
+		} else {
+			unit := strings.TrimSpace(sizeStr[i:])
+			switch unit {
+			case "kb", "k":
+				multiplier = 1024
+			case "mb", "m":
+				multiplier = 1024 * 1024
+			case "gb", "g":
+				multiplier = 1024 * 1024 * 1024
+			case "tb", "t":
+				multiplier = 1024 * 1024 * 1024 * 1024
+			case "b", "":
+				multiplier = 1
+			default:
+				return 0, fmt.Errorf("invalid size unit: %s", unit)
+			}
+			break
+		}
+	}
+
+	if numPart == "" {
+		return 0, fmt.Errorf("invalid size format: no number found")
+	}
+
+	size, err := strconv.ParseFloat(numPart, 64)
+	if err != nil {
+		return 0, fmt.Errorf("invalid size format: %w", err)
+	}
+
+	return uint64(size * float64(multiplier)), nil
 }
