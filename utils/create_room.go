@@ -7,7 +7,36 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+// PrepareDefaultRoomFeatures will initialize all the features and lock settings with default values
+// this ensure that none of the feature has nil values
 func PrepareDefaultRoomFeatures(r *plugnmeet.CreateRoomReq) {
+	if r.Metadata == nil {
+		r.Metadata = new(plugnmeet.RoomMetadata)
+	}
+	if r.Metadata.DefaultLockSettings == nil {
+		r.Metadata.DefaultLockSettings = proto.Clone(defaultLockSettings).(*plugnmeet.LockSettings)
+	}
+	if r.Metadata.ExtraData == nil {
+		r.Metadata.ExtraData = make(map[string]string)
+	}
+	if r.Metadata.CopyrightConf == nil {
+		r.Metadata.CopyrightConf = proto.Clone(defaultCopyrightConf).(*plugnmeet.CopyrightConf)
+	}
+
+	// now with all room features
+	if r.Metadata.RoomFeatures == nil {
+		r.Metadata.RoomFeatures = &plugnmeet.RoomCreateFeatures{
+			AllowWebcams:            true,
+			MuteOnStart:             false,
+			AllowScreenShare:        true,
+			AllowViewOtherWebcams:   true,
+			AllowViewOtherUsersList: true,
+			AdminOnlyWebcams:        false,
+			EnableAnalytics:         true,
+			AllowVirtualBg:          new(true),
+			AllowRaiseHand:          new(true),
+		}
+	}
 	rf := r.Metadata.RoomFeatures
 
 	if rf.RecordingFeatures == nil {
@@ -21,14 +50,6 @@ func PrepareDefaultRoomFeatures(r *plugnmeet.CreateRoomReq) {
 
 	if rf.ChatFeatures == nil {
 		rf.ChatFeatures = proto.Clone(defaultChatFeatures).(*plugnmeet.ChatFeatures)
-	} else {
-		// backward compatibility
-		if rf.ChatFeatures.AllowChat != nil {
-			rf.ChatFeatures.IsAllow = *rf.ChatFeatures.AllowChat
-		}
-		if rf.ChatFeatures.AllowFileUpload != nil {
-			rf.ChatFeatures.IsAllowFileUpload = *rf.ChatFeatures.AllowFileUpload
-		}
 	}
 	if !rf.ChatFeatures.IsAllow {
 		rf.ChatFeatures.IsAllowFileUpload = false
@@ -36,29 +57,14 @@ func PrepareDefaultRoomFeatures(r *plugnmeet.CreateRoomReq) {
 
 	if rf.SharedNotePadFeatures == nil {
 		rf.SharedNotePadFeatures = proto.Clone(defaultSharedNotePadFeatures).(*plugnmeet.SharedNotePadFeatures)
-	} else {
-		// backward compatibility
-		if rf.SharedNotePadFeatures.AllowedSharedNotePad != nil {
-			rf.SharedNotePadFeatures.IsAllow = *rf.SharedNotePadFeatures.AllowedSharedNotePad
-		}
 	}
 
 	if rf.WhiteboardFeatures == nil {
 		rf.WhiteboardFeatures = proto.Clone(defaultWhiteboardFeatures).(*plugnmeet.WhiteboardFeatures)
-	} else {
-		// backward compatibility
-		if rf.WhiteboardFeatures.AllowedWhiteboard != nil {
-			rf.WhiteboardFeatures.IsAllow = *rf.WhiteboardFeatures.AllowedWhiteboard
-		}
 	}
 
 	if rf.ExternalMediaPlayerFeatures == nil {
 		rf.ExternalMediaPlayerFeatures = proto.Clone(defaultExternalMediaPlayerFeatures).(*plugnmeet.ExternalMediaPlayerFeatures)
-	} else {
-		// backward compatibility
-		if rf.ExternalMediaPlayerFeatures.AllowedExternalMediaPlayer != nil {
-			rf.ExternalMediaPlayerFeatures.IsAllow = *rf.ExternalMediaPlayerFeatures.AllowedExternalMediaPlayer
-		}
 	}
 
 	if rf.WaitingRoomFeatures == nil {
@@ -77,13 +83,6 @@ func PrepareDefaultRoomFeatures(r *plugnmeet.CreateRoomReq) {
 		rf.IngressFeatures = proto.Clone(defaultIngressFeatures).(*plugnmeet.IngressFeatures)
 	}
 
-	if rf.SpeechToTextTranslationFeatures == nil {
-		rf.SpeechToTextTranslationFeatures = proto.Clone(defaultSpeechToTextTranslationFeatures).(*plugnmeet.SpeechToTextTranslationFeatures)
-	}
-	if !rf.SpeechToTextTranslationFeatures.IsAllow {
-		rf.SpeechToTextTranslationFeatures.IsAllowTranslation = false
-	}
-
 	if rf.EndToEndEncryptionFeatures == nil {
 		rf.EndToEndEncryptionFeatures = proto.Clone(defaultEndToEndEncryptionFeatures).(*plugnmeet.EndToEndEncryptionFeatures)
 	}
@@ -95,28 +94,25 @@ func PrepareDefaultRoomFeatures(r *plugnmeet.CreateRoomReq) {
 
 	if rf.PollsFeatures == nil {
 		rf.PollsFeatures = proto.Clone(defaultPollsFeatures).(*plugnmeet.PollsFeatures)
-		// for backward compatibility {
-		if rf.AllowPolls != nil {
-			rf.PollsFeatures.IsAllow = *rf.AllowPolls
-		}
 	}
 
 	if rf.InsightsFeatures == nil {
 		rf.InsightsFeatures = proto.Clone(defaultInsightsFeatures).(*plugnmeet.InsightsFeatures)
-		// backward compatibility
-		if rf.SpeechToTextTranslationFeatures.IsAllow {
-			rf.InsightsFeatures.IsAllow = true
-			rf.InsightsFeatures.TranscriptionFeatures.IsAllow = true
-			rf.InsightsFeatures.TranscriptionFeatures.IsAllowTranslation = rf.SpeechToTextTranslationFeatures.IsAllowTranslation
-		}
 	}
 
 	if rf.SipDialInFeatures == nil {
 		rf.SipDialInFeatures = proto.Clone(defaultSipDialInFeatures).(*plugnmeet.SipDialInFeatures)
 	}
 
-	if r.Metadata.DefaultLockSettings == nil {
-		r.Metadata.DefaultLockSettings = new(plugnmeet.LockSettings)
+	if rf.ExternalBroadcastingFeatures == nil {
+		rf.ExternalBroadcastingFeatures = proto.Clone(defaultExternalBroadcastingFeatures).(*plugnmeet.ExternalBroadcastingFeatures)
+	}
+	if rf.AllowRtmp != nil {
+		rf.ExternalBroadcastingFeatures.IsAllow = *rf.AllowRtmp
+		rf.ExternalBroadcastingFeatures.IsAllowRtmp = *rf.AllowRtmp
+	}
+	if !rf.ExternalBroadcastingFeatures.IsAllow {
+		rf.ExternalBroadcastingFeatures.IsAllowRtmp = false
 	}
 
 	r.Metadata.StartedAt = uint64(time.Now().UTC().Unix())
@@ -128,8 +124,7 @@ func SetCreateRoomDefaultValues(r *plugnmeet.CreateRoomReq, maxSize, maxSizeWhit
 
 	if rf.AutoGenUserId == nil {
 		// by default, auto user id generation will be disabled
-		ff := new(bool)
-		rf.AutoGenUserId = ff
+		rf.AutoGenUserId = new(false)
 	}
 
 	if rf.SharedNotePadFeatures.IsAllow && !allowedNotepad {
@@ -166,7 +161,7 @@ func SetCreateRoomDefaultValues(r *plugnmeet.CreateRoomReq, maxSize, maxSizeWhit
 			rf.EndToEndEncryptionFeatures.EncryptionKey = &randomKey
 		} else {
 			// if self insert key enabled
-			r.Metadata.RoomFeatures.AllowRtmp = false
+			r.Metadata.RoomFeatures.ExternalBroadcastingFeatures.IsAllow = false
 			r.Metadata.RoomFeatures.RecordingFeatures.IsAllowCloud = false
 			r.Metadata.RoomFeatures.RecordingFeatures.EnableAutoCloudRecording = false
 
@@ -207,18 +202,14 @@ func SetCreateRoomDefaultValues(r *plugnmeet.CreateRoomReq, maxSize, maxSizeWhit
 }
 
 func SetRoomDefaultLockSettings(r *plugnmeet.CreateRoomReq) {
-	lock := new(bool)
 	if r.Metadata.DefaultLockSettings.LockScreenSharing == nil {
-		*lock = true
-		r.Metadata.DefaultLockSettings.LockScreenSharing = lock
+		r.Metadata.DefaultLockSettings.LockScreenSharing = new(true)
 	}
 	if r.Metadata.DefaultLockSettings.LockWhiteboard == nil {
-		*lock = true
-		r.Metadata.DefaultLockSettings.LockWhiteboard = lock
+		r.Metadata.DefaultLockSettings.LockWhiteboard = new(true)
 	}
 	if r.Metadata.DefaultLockSettings.LockSharedNotepad == nil {
-		*lock = true
-		r.Metadata.DefaultLockSettings.LockSharedNotepad = lock
+		r.Metadata.DefaultLockSettings.LockSharedNotepad = new(true)
 	}
 }
 

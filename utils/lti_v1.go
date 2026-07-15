@@ -67,54 +67,16 @@ func AssignLTIV1CustomParams(params *url.Values, claims *plugnmeet.LtiClaims) {
 }
 
 func PrepareLTIV1RoomCreateReq(c *plugnmeet.LtiClaims) *plugnmeet.CreateRoomReq {
+	// minimum initialization
 	req := &plugnmeet.CreateRoomReq{
 		RoomId: c.RoomId,
 		Metadata: &plugnmeet.RoomMetadata{
 			RoomTitle: c.RoomTitle,
-			RoomFeatures: &plugnmeet.RoomCreateFeatures{
-				AllowWebcams:            true,
-				AllowScreenShare:        true,
-				AllowRtmp:               true,
-				AllowViewOtherWebcams:   true,
-				AllowViewOtherUsersList: true,
-				RecordingFeatures: &plugnmeet.RecordingFeatures{
-					IsAllow:                  true,
-					IsAllowCloud:             true,
-					IsAllowLocal:             true,
-					EnableAutoCloudRecording: false,
-				},
-				ChatFeatures: &plugnmeet.ChatFeatures{
-					IsAllow:           true,
-					IsAllowFileUpload: true,
-				},
-				SharedNotePadFeatures: &plugnmeet.SharedNotePadFeatures{
-					IsAllow: true,
-				},
-				WhiteboardFeatures: &plugnmeet.WhiteboardFeatures{
-					IsAllow: true,
-				},
-				ExternalMediaPlayerFeatures: &plugnmeet.ExternalMediaPlayerFeatures{
-					IsAllow: true,
-				},
-				BreakoutRoomFeatures: &plugnmeet.BreakoutRoomFeatures{
-					IsAllow: true,
-				},
-				DisplayExternalLinkFeatures: &plugnmeet.DisplayExternalLinkFeatures{
-					IsAllow: true,
-				},
-				PollsFeatures: &plugnmeet.PollsFeatures{
-					IsAllow: true,
-				},
-				InsightsFeatures: &plugnmeet.InsightsFeatures{
-					IsAllow: true,
-					TranscriptionFeatures: &plugnmeet.InsightsTranscriptionFeatures{
-						IsAllow:            true,
-						IsAllowTranslation: true,
-					},
-				},
-			},
 		},
 	}
+
+	// set all default room features
+	PrepareDefaultRoomFeatures(req)
 
 	if c.LtiCustomParameters != nil {
 		p := c.LtiCustomParameters
@@ -139,7 +101,8 @@ func PrepareLTIV1RoomCreateReq(c *plugnmeet.LtiClaims) *plugnmeet.CreateRoomReq 
 			f.RecordingFeatures.IsAllow = *p.AllowRecording
 		}
 		if p.AllowRtmp != nil {
-			f.AllowRtmp = *p.AllowRtmp
+			f.ExternalBroadcastingFeatures.IsAllow = *p.AllowRtmp
+			f.ExternalBroadcastingFeatures.IsAllowRtmp = *p.AllowRtmp
 		}
 		if p.AllowViewOtherWebcams != nil {
 			f.AllowViewOtherWebcams = *p.AllowViewOtherWebcams
