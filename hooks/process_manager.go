@@ -168,6 +168,9 @@ func (h *HookProcessManager) executeHook(script HookScript, jsonData json.RawMes
 func (h *HookProcessManager) executeHttpRequest(script HookScript, jsonData json.RawMessage, timeout time.Duration, log *logrus.Entry) (json.RawMessage, error) {
 	log.Infof("executing %s: %s", HookCommandHttpRequest, script.Script)
 
+	if timeout == 0 {
+		timeout = 5 * time.Minute
+	}
 	ctx, cancel := context.WithTimeout(h.ctx, timeout)
 	defer cancel()
 
@@ -182,7 +185,6 @@ func (h *HookProcessManager) executeHttpRequest(script HookScript, jsonData json
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	h.httpClient.Timeout = timeout
 	resp, err := h.httpClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("http request execution failed: %w", err)
@@ -210,6 +212,9 @@ func (h *HookProcessManager) executeOneShotCommand(script HookScript, jsonData j
 
 	log.Infof("executing one-shot command: %s", script.Script)
 
+	if timeout == 0 {
+		timeout = 5 * time.Minute
+	}
 	ctx, cancel := context.WithTimeout(h.ctx, timeout)
 	defer cancel()
 
@@ -251,6 +256,9 @@ func (h *HookProcessManager) executePooledProcess(script string, jsonData json.R
 		return nil, fmt.Errorf("server is shutting down; could not get process for script '%s'", script)
 	}
 
+	if timeout == 0 {
+		timeout = 5 * time.Minute
+	}
 	// This context is for the request's timeout.
 	ctx, cancel := context.WithTimeout(h.ctx, timeout)
 	defer cancel()
@@ -267,8 +275,15 @@ func (h *HookProcessManager) executePooledProcess(script string, jsonData json.R
 		// This defer block ensures the process is always either returned or recovered.
 		defer func() {
 			if err != nil {
-				log.WithError(err).Error("process execution failed, attempting to recover")
-				go h.recoverProcess(script, process)
+				if h.isRecoverableError(err) {
+					log.WithError(err).Warn("process connection appears to be lost, attempting to recover")
+					go h.recoverProcess(script, process)
+				} else {
+					// For other errors (e.g., buffer full), the process is likely still alive.
+					// We failed this request, but the process can be reused.
+					log.WithError(err).Error("process execution failed with a non-fatal error, returning process to pool")
+					pool <- process
+				}
 			} else {
 				pool <- process
 			}
@@ -375,4 +390,20 @@ func (h *HookProcessManager) stopAll() {
 	// Clear the lists.
 	h.allProcesses = make([]*ManagedHookProcess, 0)
 	h.processPools = make(map[string]chan *ManagedHookProcess)
+}
+
+// isRecoverableError checks if an error indicates a crashed process that needs recovery.
+func (h *HookProcessManager) isRecoverableError(err error) bool {
+	if err == io.EOF {
+		// EOF means the process closed its stdout stream, likely by exiting,
+		// before sending a complete newline-terminated response.
+		return true
+	}
+	if err != nil {
+		// "broken pipe" and "pipe is being closed" are common symptoms of a crashed process
+		// when we try to write to its stdin.
+		errMsg := err.Error()
+		return strings.Contains(errMsg, "broken pipe") || strings.Contains(errMsg, "pipe is being closed")
+	}
+	return false
 }

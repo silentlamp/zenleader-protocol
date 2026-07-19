@@ -5,6 +5,7 @@ type HookFileType string
 const (
 	HookFileTypeArtifact                HookFileType = "artifact"
 	HookFileTypeRecording               HookFileType = "recording"
+	HookFileTypeRecordingMetadata       HookFileType = "recording-metadata"
 	HookFileTypeRoomFile                HookFileType = "room-file"
 	HookFileTypeWhiteboardConvertedImgs HookFileType = "whiteboard-converted-imgs"
 )
@@ -13,13 +14,14 @@ const (
 // It serves as both input to the script (from the server) and output from the script (back to the server).
 // In a script chain, subsequent scripts receive the modified data from the previous script.
 type UploadHookData struct {
-	InputPath          string       `json:"input_path"` // Path to the file on the local system to be uploaded.
-	InputDirectoryPath string       `json:"input_directory_path,omitempty"`
-	HookFileType       HookFileType `json:"hook_file_type"`
-	RoomId             string       `json:"room_id"`
-	RoomSid            string       `json:"room_sid"`
-	RoomTableId        uint64       `json:"room_table_id,omitempty"`
-	FileId             string       `json:"file_id,omitempty"`
+	HookFileType HookFileType `json:"hook_file_type"`
+	RoomId       string       `json:"room_id"`
+	RoomSid      string       `json:"room_sid"`
+	RoomTableId  uint64       `json:"room_table_id,omitempty"`
+	FileId       string       `json:"file_id,omitempty"`
+
+	InputPath          string `json:"input_path"` // Path to the file on the local system to be uploaded.
+	InputDirectoryPath string `json:"input_directory_path,omitempty"`
 
 	// Fields below are typically set by the script as output, or can be passed along in a chain.
 	Error      string `json:"error,omitempty"`       // Error message from the script.
@@ -81,24 +83,24 @@ const (
 
 // ResumableUploadHookData is used for the resumable upload pipeline.
 type ResumableUploadHookData struct {
-	Type ResumableUploadHookType `json:"type"`
+	Type    ResumableUploadHookType `json:"type"`
+	RoomSid string                  `json:"room_sid"`
+	RoomId  string                  `json:"room_id"`
+	UserId  string                  `json:"user_id"`
 
-	// Identifiers, always present
-	RoomSid             string `json:"room_sid"`
-	RoomId              string `json:"room_id"`
-	UserId              string `json:"user_id"`
-	FileType            string `json:"file_type,omitempty"`
-	ResumableIdentifier string `json:"resumable_identifier"`
-	ResumableFilename   string `json:"resumable_filename,omitempty"`
-
-	// Present for "part-check" and "part-upload"
-	ResumableChunkNumber int `json:"resumable_chunk_number,omitempty"`
-
+	FileType string `json:"file_type,omitempty"`
 	// Present for "part-upload"
 	InputPath string `json:"input_path,omitempty"` // Path to the temporary local chunk file
 
+	// Identifiers, always present
+	ResumableIdentifier string `json:"resumable_identifier"`
+	ResumableFilename   string `json:"resumable_filename,omitempty"`
+	// Present for "part-check" and "part-upload"
+	ResumableChunkNumber int `json:"resumable_chunk_number,omitempty"`
 	// Present for "merge"
-	ResumableTotalChunks int32 `json:"resumable_total_chunks,omitempty"`
+	ResumableTotalChunks      int32 `json:"resumable_total_chunks,omitempty"`
+	ResumableCurrentChunkSize int64 `json:"resumable_current_chunk_size,omitempty"`
+	ResumableTotalSize        int64 `json:"resumable_total_size,omitempty"`
 
 	// --- Fields set by the script as output ---
 	Error              string                    `json:"error,omitempty"`
