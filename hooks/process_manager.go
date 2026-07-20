@@ -5,16 +5,25 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"os/exec"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/sirupsen/logrus"
 	"mvdan.cc/sh/v3/shell"
+)
+
+const (
+	// ProcessStateHealthy indicates the process is running and available.
+	ProcessStateHealthy int32 = 0
+	// ProcessStateRecovering indicates the process has been found to be unhealthy and is being recovered.
+	ProcessStateRecovering int32 = 1
 )
 
 // ManagedHookProcess holds the state for a true long-lived hook script.
@@ -27,6 +36,12 @@ type ManagedHookProcess struct {
 	log    *logrus.Entry
 	// A unique identifier for this process instance, useful for logging.
 	instanceId int
+	// The script this process is an instance of.
+	script string
+	// The current state of the process (Healthy, Recovering).
+	state atomic.Int32
+	// How many times this process slot has been recovered.
+	recoveryCount int
 }
 
 // HookProcessManager manages all the long-lived hook processes.
@@ -36,7 +51,7 @@ type HookProcessManager struct {
 	// allProcesses holds all created processes for cleanup purposes.
 	allProcesses []*ManagedHookProcess
 	// managerMutex protects the process maps/slices during concurrent operations like recovery and shutdown.
-	managerMutex sync.Mutex
+	managerMutex sync.RWMutex
 	log          *logrus.Entry
 	ctx          context.Context
 	startOnce    sync.Once
@@ -77,6 +92,8 @@ func (h *HookProcessManager) StartHookProcesses(scriptsWithPoolSize map[string]i
 				}
 				h.processPools[script] <- process
 				h.allProcesses = append(h.allProcesses, process)
+				// Launch the definitive monitor for this process.
+				go h.monitorProcess(process)
 			}
 		}
 
@@ -143,17 +160,32 @@ func (h *HookProcessManager) startNativeProcess(script string, instanceId int) (
 	}()
 
 	process := &ManagedHookProcess{
-		cmd:        cmd,
-		stdin:      stdin,
-		stdout:     stdout,
-		stderr:     stderr,
-		reader:     bufio.NewReader(stdout),
-		log:        log,
-		instanceId: instanceId,
+		cmd:           cmd,
+		stdin:         stdin,
+		stdout:        stdout,
+		stderr:        stderr,
+		reader:        bufio.NewReader(stdout),
+		log:           log,
+		instanceId:    instanceId,
+		script:        script,
+		recoveryCount: 0,
 	}
 
 	log.Info("native long-lived process instance started successfully")
 	return process, nil
+}
+
+// monitorProcess waits for a process to exit and triggers recovery.
+// This is the definitive way to detect a crashed process.
+func (h *HookProcessManager) monitorProcess(p *ManagedHookProcess) {
+	err := p.cmd.Wait()
+	// Wait() will block until the process exits. When it returns, the process is dead.
+	// We must now trigger recovery.
+
+	p.log.WithError(err).Warn("process has exited unexpectedly. Triggering recovery.")
+
+	// The existing recoverProcess function is already safe for concurrent calls.
+	h.recoverProcess(p.script, p)
 }
 
 // executeHook acts as a dispatcher. It executes one-shot commands directly
@@ -163,6 +195,41 @@ func (h *HookProcessManager) executeHook(script HookScript, jsonData json.RawMes
 		return h.executeOneShotCommand(script, jsonData, timeout, log)
 	}
 	return h.executePooledProcess(script.Script, jsonData, timeout, log)
+}
+
+// executeOneShotCommand executes a command like 'curl' directly.
+func (h *HookProcessManager) executeOneShotCommand(script HookScript, jsonData json.RawMessage, timeout time.Duration, log *logrus.Entry) (json.RawMessage, error) {
+	if strings.HasPrefix(script.Script, HookCommandHttpRequest) {
+		return h.executeHttpRequest(script, jsonData, timeout, log)
+	}
+
+	log.Infof("executing one-shot command: %s", script.Script)
+
+	if timeout == 0 {
+		timeout = 5 * time.Minute
+	}
+	ctx, cancel := context.WithTimeout(h.ctx, timeout)
+	defer cancel()
+
+	parts, err := shell.Fields(script.Script, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse one-shot script command '%s': %w", script.Script, err)
+	}
+
+	cmd := exec.CommandContext(ctx, parts[0], parts[1:]...)
+	cmd.Stdin = bytes.NewReader(jsonData)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return nil, fmt.Errorf("one-shot script execution failed: %w, output: %s", err, string(output))
+	}
+
+	responseLine := bytes.TrimSuffix(output, []byte{'\n'})
+	if len(responseLine) > 0 && !json.Valid(responseLine) {
+		return nil, fmt.Errorf("one-shot script '%s' returned invalid JSON: %s", script.Script, string(responseLine))
+	}
+
+	return responseLine, nil
 }
 
 func (h *HookProcessManager) executeHttpRequest(script HookScript, jsonData json.RawMessage, timeout time.Duration, log *logrus.Entry) (json.RawMessage, error) {
@@ -204,48 +271,16 @@ func (h *HookProcessManager) executeHttpRequest(script HookScript, jsonData json
 	return responseLine, nil
 }
 
-// executeOneShotCommand executes a command like 'curl' directly.
-func (h *HookProcessManager) executeOneShotCommand(script HookScript, jsonData json.RawMessage, timeout time.Duration, log *logrus.Entry) (json.RawMessage, error) {
-	if strings.HasPrefix(script.Script, HookCommandHttpRequest) {
-		return h.executeHttpRequest(script, jsonData, timeout, log)
-	}
-
-	log.Infof("executing one-shot command: %s", script.Script)
-
-	if timeout == 0 {
-		timeout = 5 * time.Minute
-	}
-	ctx, cancel := context.WithTimeout(h.ctx, timeout)
-	defer cancel()
-
-	parts, err := shell.Fields(script.Script, nil)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse one-shot script command '%s': %w", script.Script, err)
-	}
-
-	cmd := exec.CommandContext(ctx, parts[0], parts[1:]...)
-	cmd.Stdin = bytes.NewReader(jsonData)
-
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		return nil, fmt.Errorf("one-shot script execution failed: %w, output: %s", err, string(output))
-	}
-
-	responseLine := bytes.TrimSuffix(output, []byte{'\n'})
-	if len(responseLine) > 0 && !json.Valid(responseLine) {
-		return nil, fmt.Errorf("one-shot script '%s' returned invalid JSON: %s", script.Script, string(responseLine))
-	}
-
-	return responseLine, nil
-}
-
 // executePooledProcess executes a command using the long-lived process pool.
 func (h *HookProcessManager) executePooledProcess(script string, jsonData json.RawMessage, timeout time.Duration, log *logrus.Entry) (json.RawMessage, error) {
+	h.managerMutex.RLock()
 	pool, ok := h.processPools[script]
+	h.managerMutex.RUnlock()
+
 	if !ok {
-		// this can be the case where user define all one-shot scripts
-		// in that case, we don't need to return error
-		// we'll simply return original data
+		// This can be the case where a user defines only one-shot scripts,
+		// or a script is misconfigured. Log a warning and return.
+		h.log.Warnf("no process pool found for long-lived script '%s', it will be skipped", script)
 		return jsonData, nil
 	}
 
@@ -277,7 +312,7 @@ func (h *HookProcessManager) executePooledProcess(script string, jsonData json.R
 			if err != nil {
 				if h.isRecoverableError(err) {
 					log.WithError(err).Warn("process connection appears to be lost, attempting to recover")
-					go h.recoverProcess(script, process)
+					h.recoverProcess(script, process)
 				} else {
 					// For other errors (e.g., buffer full), the process is likely still alive.
 					// We failed this request, but the process can be reused.
@@ -289,8 +324,7 @@ func (h *HookProcessManager) executePooledProcess(script string, jsonData json.R
 			}
 		}()
 
-		_, err = process.stdin.Write(append(jsonData, '\n'))
-		if err != nil {
+		if _, err = process.stdin.Write(append(jsonData, '\n')); err != nil {
 			resultChan <- result{nil, err}
 			return
 		}
@@ -327,36 +361,55 @@ func (h *HookProcessManager) executePooledProcess(script string, jsonData json.R
 }
 
 // recoverProcess attempts to restart a failed hook process and returns it to the pool.
+// It is protected by an atomic flag to prevent concurrent recovery of the same process.
 func (h *HookProcessManager) recoverProcess(script string, oldProcess *ManagedHookProcess) {
-	h.managerMutex.Lock()
-	defer h.managerMutex.Unlock()
+	// Try to mark the process as "recovering". If another goroutine has already started recovery, skip.
+	if !oldProcess.state.CompareAndSwap(ProcessStateHealthy, ProcessStateRecovering) {
+		h.log.Debugf("process instance %d for script '%s' is already being recovered. Skipping.", oldProcess.instanceId, script)
+		return
+	}
 
-	// Before recovering, check if the main context is done. If so, the server is shutting down.
+	// Before recovering, check if the main context is done.
 	if h.ctx.Err() != nil {
 		h.log.Warnf("server is shutting down, skipping recovery for process instance %d", oldProcess.instanceId)
 		return
 	}
 
-	log := h.log.WithField("hook_script", script)
-	log.Warnf("attempting to recover failed process instance %d", oldProcess.instanceId)
+	// Add a simple sleep to prevent a tight crash loop from overwhelming the CPU.
+	// This gives a cool-down period before we attempt to restart the process.
+	time.Sleep(5 * time.Second)
 
-	// Clean up the old process resources.
+	log := h.log.WithField("hook_script", script)
+	log.Warnf("attempting to recover failed process instance %d (attempt %d)", oldProcess.instanceId, oldProcess.recoveryCount+1)
+
+	// Clean up the old process's pipes. The OS process is already reaped by the Wait() call in the monitor.
 	if oldProcess.cmd != nil {
 		_ = oldProcess.stdin.Close()
 		_ = oldProcess.stdout.Close()
 		_ = oldProcess.stderr.Close()
-		if oldProcess.cmd.Process != nil {
-			_ = oldProcess.cmd.Process.Kill()
-			_, _ = oldProcess.cmd.Process.Wait()
-		}
 	}
 
-	// Attempt to start a new process.
+	// Attempt to start a new process. This does NOT launch a monitor.
 	newProcess, err := h.startNativeProcess(script, oldProcess.instanceId)
+
+	// Lock the manager strictly to update the state collections.
+	h.managerMutex.Lock()
+	defer h.managerMutex.Unlock()
+
 	if err != nil {
 		log.WithError(err).Error("failed to recover process; pool size for this script will be reduced")
+		// Remove the failed process from the master list.
+		for i, p := range h.allProcesses {
+			if p == oldProcess {
+				h.allProcesses = append(h.allProcesses[:i], h.allProcesses[i+1:]...)
+				break
+			}
+		}
 		return
 	}
+
+	// Set the correct recovery count before adding it to the list.
+	newProcess.recoveryCount = oldProcess.recoveryCount + 1
 
 	// Replace the old process with the new one in the global list.
 	for i, p := range h.allProcesses {
@@ -368,7 +421,11 @@ func (h *HookProcessManager) recoverProcess(script string, oldProcess *ManagedHo
 
 	// Return the newly recovered process to the pool.
 	h.processPools[script] <- newProcess
-	log.Info("successfully recovered process instance")
+
+	// NOW, with the state fully updated, launch the monitor for the new process.
+	go h.monitorProcess(newProcess)
+
+	log.Infof("Successfully recovered process instance %d (now at %d recoveries)", newProcess.instanceId, newProcess.recoveryCount)
 }
 
 // stopAll terminates all managed hook processes.
@@ -383,7 +440,9 @@ func (h *HookProcessManager) stopAll() {
 			_ = p.stderr.Close()
 			if p.cmd.Process != nil {
 				_ = p.cmd.Process.Kill()
-				_, _ = p.cmd.Process.Wait()
+				// We don't need to wait here. The `cmd.Wait()` in the monitor will still
+				// return, and its call to `recoverProcess` will be safely aborted
+				// by the `h.ctx.Err() != nil` check.
 			}
 		}
 	}
@@ -394,7 +453,7 @@ func (h *HookProcessManager) stopAll() {
 
 // isRecoverableError checks if an error indicates a crashed process that needs recovery.
 func (h *HookProcessManager) isRecoverableError(err error) bool {
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		// EOF means the process closed its stdout stream, likely by exiting,
 		// before sending a complete newline-terminated response.
 		return true
