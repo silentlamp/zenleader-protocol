@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
-	"github.com/mynaparrot/plugnmeet-protocol/utils"
+	"github.com/silentlamp/zenleader-protocol/plugnmeet"
+	"github.com/silentlamp/zenleader-protocol/utils"
 )
 
 type CreateMeetingReq struct {

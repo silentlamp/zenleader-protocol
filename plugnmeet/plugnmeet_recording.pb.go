@@ -475,7 +475,7 @@ const file_plugnmeet_recording_proto_rawDesc = "" +
 	"\x1cenable_auto_close_chat_panel\x18\x01 \x01(\bR\x18enableAutoCloseChatPanel\x12B\n" +
 	"\x1bduration_after_last_message\x18\x02 \x01(\rH\x00R\x18durationAfterLastMessage\x88\x01\x01B\x1e\n" +
 	"\x1c_duration_after_last_messageB\xa0\x01\n" +
-	"\rcom.plugnmeetB\x17PlugnmeetRecordingProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x17PlugnmeetRecordingProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_recording_proto_rawDescOnce sync.Once

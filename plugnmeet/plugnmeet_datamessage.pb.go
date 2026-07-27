@@ -239,7 +239,7 @@ const file_plugnmeet_datamessage_proto_rawDesc = "" +
 	"\x14REQ_PUBLIC_CHAT_DATA\x10\x12\x12\x18\n" +
 	"\x14RES_PUBLIC_CHAT_DATA\x10\x13\x12\f\n" +
 	"\bREACTION\x10\x14B\xa2\x01\n" +
-	"\rcom.plugnmeetB\x19PlugnmeetDatamessageProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x19PlugnmeetDatamessageProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_datamessage_proto_rawDescOnce sync.Once

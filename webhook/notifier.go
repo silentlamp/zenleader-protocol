@@ -15,7 +15,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/livekit/protocol/auth"
-	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/encoding/protojson"
 )

@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+import "github.com/silentlamp/zenleader-protocol/plugnmeet"
 
 var (
 	defaultRecordingFeatures = &plugnmeet.RecordingFeatures{

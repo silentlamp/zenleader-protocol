@@ -6,7 +6,7 @@ import (
 	"github.com/go-jose/go-jose/v4"
 	"github.com/go-jose/go-jose/v4/jwt"
 	"github.com/livekit/protocol/auth"
-	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 )
 
 func GeneratePlugNmeetJWTAccessToken(apiKey, secret, userId string, tokenValidity time.Duration, c *plugnmeet.PlugNmeetTokenClaims) (string, error) {

@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 )
 
 func AssignLTIV1CustomParams(params *url.Values, claims *plugnmeet.LtiClaims) {

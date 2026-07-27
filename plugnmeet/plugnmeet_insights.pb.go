@@ -1299,7 +1299,7 @@ const file_plugnmeet_insights_proto_rawDesc = "" +
 	"!INSIGHTS_AI_TEXT_CHAT_ROLE_SYSTEM\x10\x01\x12#\n" +
 	"\x1fINSIGHTS_AI_TEXT_CHAT_ROLE_USER\x10\x02\x12$\n" +
 	" INSIGHTS_AI_TEXT_CHAT_ROLE_MODEL\x10\x03B\x9f\x01\n" +
-	"\rcom.plugnmeetB\x16PlugnmeetInsightsProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x16PlugnmeetInsightsProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_insights_proto_rawDescOnce sync.Once

@@ -477,7 +477,7 @@ const file_plugnmeet_common_proto_rawDesc = "" +
 	"\afile_id\x18\x01 \x01(\tH\x00R\x06fileId\x88\x01\x01B\n" +
 	"\n" +
 	"\b_file_idB\x9d\x01\n" +
-	"\rcom.plugnmeetB\x14PlugnmeetCommonProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x14PlugnmeetCommonProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_common_proto_rawDescOnce sync.Once

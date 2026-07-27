@@ -596,7 +596,7 @@ const file_plugnmeet_breakout_room_proto_rawDesc = "" +
 	"\x05rooms\x18\x05 \x03(\v2\x17.plugnmeet.BreakoutRoomR\x05roomsB\b\n" +
 	"\x06_tokenB\a\n" +
 	"\x05_roomB\xa3\x01\n" +
-	"\rcom.plugnmeetB\x1aPlugnmeetBreakoutRoomProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x1aPlugnmeetBreakoutRoomProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_breakout_room_proto_rawDescOnce sync.Once

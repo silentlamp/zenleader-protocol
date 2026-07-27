@@ -1,4 +1,4 @@
-module github.com/mynaparrot/plugnmeet-protocol
+module github.com/silentlamp/zenleader-protocol
 
 go 1.26
 

@@ -743,7 +743,7 @@ const file_plugnmeet_room_artifacts_proto_rawDesc = "" +
 	"\x16CHAT_TRANSLATION_USAGE\x10\a\x12\"\n" +
 	"\x1eAI_TEXT_CHAT_INTERACTION_USAGE\x10\b\x12$\n" +
 	" AI_TEXT_CHAT_SUMMARIZATION_USAGE\x10\tB\xa4\x01\n" +
-	"\rcom.plugnmeetB\x1bPlugnmeetRoomArtifactsProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x1bPlugnmeetRoomArtifactsProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_room_artifacts_proto_rawDescOnce sync.Once

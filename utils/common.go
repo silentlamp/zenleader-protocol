@@ -15,7 +15,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/livekit/protocol/livekit"
-	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 )

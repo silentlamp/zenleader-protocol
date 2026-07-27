@@ -1427,7 +1427,7 @@ const file_plugnmeet_nats_msg_proto_rawDesc = "" +
 	"\x1dNATS_SYSTEM_NOTIFICATION_INFO\x10\x00\x12$\n" +
 	" NATS_SYSTEM_NOTIFICATION_WARNING\x10\x01\x12\"\n" +
 	"\x1eNATS_SYSTEM_NOTIFICATION_ERROR\x10\x02B\x9e\x01\n" +
-	"\rcom.plugnmeetB\x15PlugnmeetNatsMsgProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x15PlugnmeetNatsMsgProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_nats_msg_proto_rawDescOnce sync.Once

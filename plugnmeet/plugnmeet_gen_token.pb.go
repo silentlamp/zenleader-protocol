@@ -811,7 +811,7 @@ const file_plugnmeet_gen_token_proto_rawDesc = "" +
 	"\x14_right_side_bg_colorB\x11\n" +
 	"\x0f_custom_css_urlB\x0e\n" +
 	"\f_custom_logoB\x9f\x01\n" +
-	"\rcom.plugnmeetB\x16PlugnmeetGenTokenProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x16PlugnmeetGenTokenProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_gen_token_proto_rawDescOnce sync.Once

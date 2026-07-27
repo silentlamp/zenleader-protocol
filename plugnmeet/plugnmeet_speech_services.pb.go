@@ -485,7 +485,7 @@ const file_plugnmeet_speech_services_proto_rawDesc = "" +
 	"\x1eSPEECH_TO_TEXT_SESSION_STARTED\x10\x00\x12 \n" +
 	"\x1cSPEECH_TO_TEXT_SESSION_ENDED\x10\x01\x12\x1e\n" +
 	"\x1aSPEECH_TO_TEXT_TOTAL_USAGE\x10\x02B\xa5\x01\n" +
-	"\rcom.plugnmeetB\x1cPlugnmeetSpeechServicesProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x1cPlugnmeetSpeechServicesProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_speech_services_proto_rawDescOnce sync.Once

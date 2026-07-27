@@ -810,7 +810,7 @@ const file_plugnmeet_polls_proto_rawDesc = "" +
 	"\f_total_pollsB\x10\n" +
 	"\x0e_total_runningB\x18\n" +
 	"\x16_poll_responses_resultB\x9c\x01\n" +
-	"\rcom.plugnmeetB\x13PlugnmeetPollsProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x13PlugnmeetPollsProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_polls_proto_rawDescOnce sync.Once

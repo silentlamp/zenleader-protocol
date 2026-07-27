@@ -2267,7 +2267,7 @@ const file_plugnmeet_create_room_proto_rawDesc = "" +
 	"\vstatus_code\x18\x03 \x01(\x0e2\x15.plugnmeet.StatusCodeR\n" +
 	"statusCode\x126\n" +
 	"\troom_info\x18\x04 \x01(\v2\x19.plugnmeet.ActiveRoomInfoR\broomInfoB\xa1\x01\n" +
-	"\rcom.plugnmeetB\x18PlugnmeetCreateRoomProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x18PlugnmeetCreateRoomProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_create_room_proto_rawDescOnce sync.Once

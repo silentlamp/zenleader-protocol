@@ -3,7 +3,7 @@ package bbbapiwrapper
 import (
 	"encoding/xml"
 
-	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 )
 
 type JoinMeetingReq struct {

@@ -1432,7 +1432,7 @@ const file_plugnmeet_auth_room_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\x0e2&.plugnmeet.NatsSystemNotificationTypesR\x04type\x12\x1d\n" +
 	"\n" +
 	"with_sound\x18\x03 \x01(\bR\twithSoundB\x9f\x01\n" +
-	"\rcom.plugnmeetB\x16PlugnmeetAuthRoomProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x16PlugnmeetAuthRoomProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_auth_room_proto_rawDescOnce sync.Once

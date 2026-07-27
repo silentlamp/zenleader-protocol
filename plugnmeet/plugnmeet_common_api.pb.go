@@ -2268,7 +2268,7 @@ const file_plugnmeet_common_api_proto_rawDesc = "" +
 	"\x19WHITEBOARD_CONVERTED_FILE\x10\x02\x12\x1e\n" +
 	"\x1aEXTERNAL_MEDIA_PLAYER_FILE\x10\x03\x12\x16\n" +
 	"\x12VIRTUAL_BACKGROUND\x10\x04B\xa0\x01\n" +
-	"\rcom.plugnmeetB\x17PlugnmeetCommonApiProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x17PlugnmeetCommonApiProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_common_api_proto_rawDescOnce sync.Once

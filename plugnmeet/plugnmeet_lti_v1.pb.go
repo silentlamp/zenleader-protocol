@@ -335,7 +335,7 @@ const file_plugnmeet_lti_v1_proto_rawDesc = "" +
 	"\x10_secondary_colorB\x13\n" +
 	"\x11_background_colorB\x0e\n" +
 	"\f_custom_logoB\x9c\x01\n" +
-	"\rcom.plugnmeetB\x13PlugnmeetLtiV1ProtoP\x01Z2github.com/mynaparrot/plugnmeet-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
+	"\rcom.plugnmeetB\x13PlugnmeetLtiV1ProtoP\x01Z2github.com/silentlamp/zenleader-protocol/plugnmeet\xa2\x02\x03PXX\xaa\x02\tPlugnmeet\xca\x02\tPlugnmeet\xe2\x02\x15Plugnmeet\\GPBMetadata\xea\x02\tPlugnmeetb\x06proto3"
 
 var (
 	file_plugnmeet_lti_v1_proto_rawDescOnce sync.Once

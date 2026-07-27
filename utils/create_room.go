@@ -3,7 +3,7 @@ package utils
 import (
 	"time"
 
-	"github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 	"google.golang.org/protobuf/proto"
 )
 
