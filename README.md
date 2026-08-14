@@ -33,7 +33,7 @@ pnpm run build
 ### Go
 
 ```go
-import "github.com/mynaparrot/plugnmeet-protocol/plugnmeet"
+import "github.com/silentlamp/zenleader-protocol/plugnmeet"
 ```
 
 ### JavaScript
