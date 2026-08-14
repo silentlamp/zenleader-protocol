@@ -1,7 +1,7 @@
 {
-  "name": "plugnmeet-protocol-js",
+  "name": "zenleader-protocol-js",
   "version": "1.4.0",
-  "description": "plugNmeet JS proto files",
+  "description": "ZenLeader JS proto files",
   "author": "MiraiLabs",
   "license": "MIT",
   "source": "src/index.ts",
