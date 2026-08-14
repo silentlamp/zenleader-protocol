@@ -1,8 +1,8 @@
 syntax = "proto3";
 package plugnmeet;
 
-option go_package = "github.com/mynaparrot/plugnmeet-protocol/plugnmeet";
-option php_namespace = "Mynaparrot\\PlugnmeetProto";
+option go_package = "github.com/silentlamp/zenleader-protocol/plugnmeet";
+option php_namespace = "Zenleader\\ZenleaderProto";
 
 enum AnalyticsEventType {
   ANALYTICS_EVENT_TYPE_ROOM = 0;
