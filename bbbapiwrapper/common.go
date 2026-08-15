@@ -43,7 +43,7 @@ func CheckMeetingIdToMatchFormat(meetingID string) string {
 	valid, _ := regexp.MatchString("^[a-zA-Z0-9-_]+$", meetingID)
 	if !valid {
 		// if not valid then we'll convert it
-		// otherwise plugNmeet will complain
+		// otherwise ZenLeader Meet will complain
 		h := md5.Sum([]byte(meetingID))
 		return hex.EncodeToString(h[:])
 	}

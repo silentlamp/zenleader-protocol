@@ -9,7 +9,7 @@ import (
 	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 )
 
-func GeneratePlugNmeetJWTAccessToken(apiKey, secret, userId string, tokenValidity time.Duration, c *plugnmeet.PlugNmeetTokenClaims) (string, error) {
+func GenerateZenLeaderJWTAccessToken(apiKey, secret, userId string, tokenValidity time.Duration, c *plugnmeet.PlugNmeetTokenClaims) (string, error) {
 	sig, err := jose.NewSigner(jose.SigningKey{Algorithm: jose.HS256, Key: []byte(secret)},
 		(&jose.SignerOptions{}).WithType("JWT"))
 

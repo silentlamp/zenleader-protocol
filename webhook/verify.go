@@ -12,8 +12,8 @@ import (
 	"github.com/livekit/protocol/auth"
 )
 
-// VerifyRequest will verify webhook request both for livekit & plugNmeet
-// in plugNmeet we're following the same token system as livekit is using
+// VerifyRequest will verify webhook request both for livekit & ZenLeader Meet
+// in ZenLeader Meet we're following the same token system as livekit is using
 // in this method we'll verify the provided body request
 func VerifyRequest(body []byte, apiKey, secret, token string) (bool, error) {
 	tok, err := jwt.ParseSigned(token, []jose.SignatureAlgorithm{jose.HS256})

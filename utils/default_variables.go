@@ -117,6 +117,6 @@ var (
 
 	defaultCopyrightConf = &plugnmeet.CopyrightConf{
 		Display: true,
-		Text:    "Powered by <a href=\"https://www.plugnmeet.org\" target=\"_blank\">plugNmeet</a>",
+		Text:    "Developed by Blue Ocean Digital",
 	}
 )

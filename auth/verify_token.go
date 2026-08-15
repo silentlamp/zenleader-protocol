@@ -9,11 +9,11 @@ import (
 	"github.com/silentlamp/zenleader-protocol/plugnmeet"
 )
 
-// VerifyPlugNmeetAccessToken can be use to verify plugNmeet access token
+// VerifyZenLeaderAccessToken can be use to verify ZenLeader Meet access token
 // gracefulPeriod allows a token to be considered valid for this duration past its original expiration time.
 // A value of 0 means no graceful period (strict expiration).
 // NotBefore (nbf) validation is always strict against the current time.
-func VerifyPlugNmeetAccessToken(apiKey, secret, token string, gracefulPeriod time.Duration) (*plugnmeet.PlugNmeetTokenClaims, error) {
+func VerifyZenLeaderAccessToken(apiKey, secret, token string, gracefulPeriod time.Duration) (*plugnmeet.PlugNmeetTokenClaims, error) {
 	tok, err := jwt.ParseSigned(token, []jose.SignatureAlgorithm{jose.HS256})
 	if err != nil {
 		return nil, err
